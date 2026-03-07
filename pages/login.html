@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container navContent">
+            <a href="../index.html" class="logo">Rental Center</a>
+            <nav>
+                <ul class="navLinks">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <li><a href="rentOutForm.html">List Item</a></li>
+                    <li><a href="inbox.html">Inbox</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="login.html" class="active">Login</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <h1>Login</h1>
+            <p>Access your account to reserve items, manage listings, and view messages.</p>
+            <form>
+                <div>
+                    <label for="login-email">Email</label><br>
+                    <input id="login-email" type="email" placeholder="you@example.com">
+                </div>
+                <div>
+                    <label for="login-password">Password</label><br>
+                    <input id="login-password" type="password" placeholder="••••••••">
+                </div>
+                <div class="mainButtons">
+                    <button type="submit" class="btn btnPrimary">Log In</button>
+                    <a href="signup.html" class="btn btnSecondary">Create Account</a>
+                </div>
+                <p><a href="#">Forgot password?</a></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="../js/app.js"></script>
+</body>
+</html>

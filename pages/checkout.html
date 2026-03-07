@@ -12,10 +12,13 @@
             <a href="../index.html" class="logo">Rental Center</a>
             <nav>
                 <ul class="navLinks">
-                    <li><a href="admin_home.html">Home</a></li>
+                    <li><a href="../index.html">Home</a></li>
                     <li><a href="browse.html">Browse</a></li>
-                    <li><a href="admin_inbox.html">Inbox</a></li>
+                    <li><a href="rentOutForm.html">List Item</a></li>
+                    <li><a href="inbox.html">Inbox</a></li>
                     <li><a href="profile.html">Profile</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
                 </ul>
             </nav>
         </div>
@@ -26,7 +29,7 @@
             <div class="container">
                 <h1>Checkout</h1>
                 <div class="checkout_form">
-                    <h2>Shipping Adress</h2>
+                    <h2>Shipping Address</h2>
                     <label for="text_box">Full Name:</label>
                     <input class="text_box">
                     <label for="text_box">Street Address:</label>
@@ -38,6 +41,20 @@
                     <label for="text_box">ZIP Code:</label>
                     <input class="text_box">
                     <label for="text_box">Phone Number:</label>
+                    <input class="text_box">
+
+                    <h2>Billing Address</h2>
+                    <label for="text_box">Same as shipping:</label>
+                    <input type="checkbox">
+                    <label for="text_box">Full Name:</label>
+                    <input class="text_box">
+                    <label for="text_box">Street Address:</label>
+                    <input class="text_box">
+                    <label for="text_box">City:</label>
+                    <input class="text_box">
+                    <label for="text_box">State:</label>
+                    <input class="text_box">
+                    <label for="text_box">ZIP Code:</label>
                     <input class="text_box">
 
                     <h2>Payment Info</h2>
@@ -62,7 +79,13 @@
                     <h2>Cart</h2>
                     <div class="cart_container">
                         <p>Lawn Mower: $10</p>
-                        <p>Total: $10</p>
+                        <p>Service Fee: $2</p>
+                        <p>Tax: $0.80</p>
+                        <p>Total: $12.80</p>
+                    </div>
+                    <div class="mainButtons">
+                        <button class="btn btnPrimary" type="button">Place Order</button>
+                        <a class="btn btnSecondary" href="browse.html">Back to Browse</a>
                     </div>
                 </div>
             </div>

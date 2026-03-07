@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container navContent">
+            <a href="../index.html" class="logo">Rental Center</a>
+            <nav>
+                <ul class="navLinks">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <li><a href="rentOutForm.html">List Item</a></li>
+                    <li><a href="inbox.html">Inbox</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html" class="active">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <h1>Create Account</h1>
+            <p>Join the community to list and reserve equipment.</p>
+            <form>
+                <div>
+                    <label for="signup-first">First Name</label><br>
+                    <input id="signup-first" type="text" placeholder="First name">
+                </div>
+                <div>
+                    <label for="signup-last">Last Name</label><br>
+                    <input id="signup-last" type="text" placeholder="Last name">
+                </div>
+                <div>
+                    <label for="signup-username">Username</label><br>
+                    <input id="signup-username" type="text" placeholder="username">
+                </div>
+                <div>
+                    <label for="signup-email">Email</label><br>
+                    <input id="signup-email" type="email" placeholder="you@example.com">
+                </div>
+                <div>
+                    <label for="signup-password">Password</label><br>
+                    <input id="signup-password" type="password" placeholder="At least 8 characters">
+                </div>
+                <div class="mainButtons">
+                    <button type="submit" class="btn btnPrimary">Create Account</button>
+                    <a href="login.html" class="btn btnSecondary">Already have an account?</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="../js/app.js"></script>
+</body>
+</html>

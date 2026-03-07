@@ -12,10 +12,13 @@
             <a href="../index.html" class="logo">Rental Center</a>
             <nav>
                 <ul class="navLinks">
-                    <li><a href="admin_home.html">Home</a></li>
+                    <li><a href="../index.html">Home</a></li>
                     <li><a href="browse.html" class="active">Browse</a></li>
-                    <li><a href="admin_inbox.html">Inbox</a></li>
+                    <li><a href="rentOutForm.html">List Item</a></li>
+                    <li><a href="inbox.html">Inbox</a></li>
                     <li><a href="profile.html">Profile</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
                 </ul>
             </nav>
         </div>
@@ -25,11 +28,12 @@
         <div class="border">
             <div class="container">
                 <h1>Report Form</h1>
-                <label>User Reported:</label>
+                <label for="reported-user">User Reported:</label>
+                <input id="reported-user" type="text" placeholder="username or listing owner">
                 <label for="report_reason">Rule Broken:</label>
                 <select id="report_reason" name="report_reason">
-                    <option value="inapropriate_item">Inapropriate Item</option>
-                    <option value="inapropriate_username">Inapropriate Username</option>
+                    <option value="inappropriate_item">Inappropriate Item</option>
+                    <option value="inappropriate_username">Inappropriate Username</option>
                     <option value="user_scam">Scamming</option>
                     <option value="unrelated_details">Unrelated Details</option>
                 </select>
@@ -37,7 +41,8 @@
                 <label for="further_details">Details:</label>
                 <textarea id="further_details" name="further_details" placeholder="Further Details (optional)"></textarea>
                 <div class="mainButtons">
-                    <a href="" class="btn btnPrimary">Report</a>
+                    <a href="browse.html" class="btn btnPrimary">Submit Report</a>
+                    <a href="item.html" class="btn btnSecondary">Back to Item</a>
                 </div>
             </div>
         </div>

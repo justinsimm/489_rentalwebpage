@@ -29,13 +29,33 @@ body {
 
 a {
     text-decoration: none;
-    color: #000000;
-}
 
 .navContent {
+.btnPrimary {
+    background-color: #2563EB;
+    color: white;
+}
+
+.btnPrimary:hover {
+    background-color: #1D4ED8;
+}
+
+.btnSecondary {
+    background-color: white;
+    color: #1F2937;
+    border: 1px solid #E5E7EB;
+}
+
+.btnSecondary:hover {
+    background-color: #dadfe4;
+}
+
+.mainButtons {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 20px;
+}
 }
 
 .logo {

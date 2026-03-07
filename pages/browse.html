@@ -14,7 +14,11 @@
                 <ul class="navLinks">
                     <li><a href="../index.html">Home</a></li>
                     <li><a href="browse.html" class="active">Browse</a></li>
+                    <li><a href="rentOutForm.html">List Item</a></li>
+                    <li><a href="inbox.html">Inbox</a></li>
                     <li><a href="profile.html">Profile</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
                 </ul>
             </nav>
         </div>
@@ -23,7 +27,45 @@
     <main class="container">
         <section>
             <h1>Browse Listings</h1>
-            <p>Here we will display a grid of item cards dynamically loaded via JavaScript.</p>
+            <p>Search and filter available rentals in your community.</p>
+            <div>
+                <label for="search-input">Search</label><br>
+                <input id="search-input" type="text" placeholder="Search by keyword or item name">
+                <button class="btn btnPrimary" type="button">Search</button>
+            </div>
+            <div>
+                <label for="category-filter">Category</label><br>
+                <select id="category-filter">
+                    <option>All Categories</option>
+                    <option>Party & Events</option>
+                    <option>Tools & Equipment</option>
+                    <option>Electronics</option>
+                    <option>Sports & Outdoors</option>
+                    <option>Apparel & Formal Wear</option>
+                </select>
+                <label for="distance-filter">Distance</label><br>
+                <select id="distance-filter">
+                    <option>Within 5 miles</option>
+                    <option>Within 10 miles</option>
+                    <option>Within 25 miles</option>
+                    <option>Within 50 miles</option>
+                </select>
+                <label for="availability-filter">Availability</label><br>
+                <select id="availability-filter">
+                    <option>Any Date</option>
+                    <option>This Week</option>
+                    <option>This Weekend</option>
+                    <option>Next 30 Days</option>
+                </select>
+            </div>
+            <div>
+                <h3>Featured Listings</h3>
+                <ul>
+                    <li><a href="item.html">Lawn Mower</a> — $10/day — Available this weekend</li>
+                    <li><a href="item.html">Party Tent</a> — $60/day — Available 3/10-3/14</li>
+                    <li><a href="item.html">Snowboard</a> — $15/day — Available next week</li>
+                </ul>
+            </div>
         </section>
     </main>
     <script src="../js/app.js"></script>
