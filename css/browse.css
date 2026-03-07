@@ -13,6 +13,10 @@ body {
     min-height: 100vh;  /* 100 percent of the viewpoint (browser page) */
 }
 
+.featureListings {
+    list-style: none;
+}
+
 .container {
     padding: 10px;
     margin-left: auto;
