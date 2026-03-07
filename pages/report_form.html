@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Form</title>
+    <link rel="stylesheet" href="../css/report_form.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container navContent">
+            <a href="../index.html" class="logo">Rental Center</a>
+            <nav>
+                <ul class="navLinks">
+                    <li><a href="admin_home.html">Home</a></li>
+                    <li><a href="browse.html" class="active">Browse</a></li>
+                    <li><a href="admin_inbox.html">Inbox</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="background">
+        <div class="border">
+            <div class="container">
+                <h1>Report Form</h1>
+                <label>User Reported:</label>
+                <label for="report_reason">Rule Broken:</label>
+                <select id="report_reason" name="report_reason">
+                    <option value="inapropriate_item">Inapropriate Item</option>
+                    <option value="inapropriate_username">Inapropriate Username</option>
+                    <option value="user_scam">Scamming</option>
+                    <option value="unrelated_details">Unrelated Details</option>
+                </select>
+
+                <label for="further_details">Details:</label>
+                <textarea id="further_details" name="further_details" placeholder="Further Details (optional)"></textarea>
+                <div class="mainButtons">
+                    <a href="" class="btn btnPrimary">Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
