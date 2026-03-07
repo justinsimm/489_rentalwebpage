@@ -136,11 +136,24 @@ a {
 
 
 .form-input {
-    width: 100%;
     padding: 12px 16px;
     font-size: 13px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
     color: #000000;
     background-color: #ffffff;
+}
+
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.border {
+    padding: 10px;
+    border: 2px solid #E5E7EB;
+    border-radius: 6px;
+    width: 80%;
 }
