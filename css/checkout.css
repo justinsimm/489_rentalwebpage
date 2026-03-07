@@ -170,3 +170,14 @@ select {
     margin-bottom: 5px;
     text-align: left;
 }
+
+.cart_container {
+    justify-content: left;
+    align-items: left;
+    border: 2px solid #E5E7EB;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: left;
+    margin: 5px;
+    background-color: #f1f1f5;
+}
