@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Out an Item - Rental Center</title>
+    <link href="../css/rentOutForm.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navContent">
+            <a href="../index.html" class="logo">Rental Center</a>
+            <nav>
+                <ul class="navLinks">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="formContainer">
+            <h1>Rent Out Your Item</h1>
+            <p class="form-subtitle">Fill out the details below to list your item for rent.</p>
+
+            <form class="rentForm">
+                <div class="formGroup">
+                    <label>Item Title</label>
+                    <input type="text" class="form-input">
+                </div>
+
+                <div class="formGroup">
+                    <label>Category</label>
+                    <select class="form-input">
+                        <option disabled selected>Select a category</option>
+                        <option>Party & Events</option>
+                        <option>Tools & Equipment</option>
+                        <option>Electronics</option>
+                        <option>Sports & Outdoors</option>
+                        <option>Apparel & Formal Wear</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="formGroup">
+                    <label>Item Description</label>
+                    <textarea rows="3" class="form-input"></textarea>
+                </div>
+
+                <div class="formGroup">
+                    <label>Daily Rate ($)</label>
+                    <input type="number" class="form-input">
+                </div>
+
+                <div class="formGroup fileUpload">
+                    <label>Upload Images</label>
+                    <input type="file" class="imgInput" accept=".png, .jpg">
+                    <p>Up to 5 photos (PNG or JPG files only). First photo will be the cover image.</p>
+                </div>
+
+                <button type="submit" class="btn">List Item for Rent</button>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
