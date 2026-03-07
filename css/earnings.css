@@ -29,11 +29,18 @@ body {
 
 a {
     text-decoration: none;
+    color: #000000;
+}
 
 .navContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .btnPrimary {
-    background-color: #2563EB;
-    color: white;
+        background-color: #2563EB;
+        color: white;
 }
 
 .btnPrimary:hover {
@@ -56,7 +63,7 @@ a {
     justify-content: center;
     margin-top: 20px;
 }
-}
+
 
 .logo {
     font-size: 24px;
