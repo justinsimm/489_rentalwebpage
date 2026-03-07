@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Item</title>
+    <link href="../css/rentItem.css" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container navContent">
+            <a href="../index.html" class="logo">Rental Center</a>
+            <nav>
+                <ul class="navLinks">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container formContainer">
+            <h1>Request to Rent</h1>
+            <p class="form-subtitle">Send a message to the owner to request this item.</p>
+            <form class="rentForm">
+                <div class="formGroup">
+                    <label>Item Requesting</label>
+                    <input type="text" class="form-input" value="Bouncy House">
+                </div>
+
+                <div class="formGroup">
+                    <label>Message to Owner</label>
+                    <textarea
+                        class="form-input">I am interested in renting your Bouncy House. Is it available Saturday?</textarea>
+                </div>
+
+                <button type="submit" class="btn">Send Request</button>
+                <a href="item.html" class="CancelBtn">Cancel</a>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
