@@ -27,6 +27,10 @@ app.use('/', adminRouter);
 app.use('/', public_routesRouter);
 app.use('/users', usersRouter);
 
+//Database setup
+const connectDB = require('./db');
+connectDB();
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
