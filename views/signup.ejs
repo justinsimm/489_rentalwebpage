@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/signup.css">
 </head>
 <body>
@@ -30,26 +31,39 @@
                 <section>
                     <h1>Create Account</h1>
                     <p>Join the community to list and reserve equipment.</p>
-                    <form>
-                        <div>
-                            <label for="signup-first">First Name</label><br>
-                            <input id="signup-first" type="text" placeholder="First name">
+                    
+                    <% if (errors.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <p><%= errors[0] %></p>
                         </div>
-                        <div>
-                            <label for="signup-last">Last Name</label><br>
-                            <input id="signup-last" type="text" placeholder="Last name">
+                    <% } %>
+
+                    <% if (success) { %>
+                        <div class="alert alert-success">
+                            <p>Signature successfully added</p>
                         </div>
-                        <div>
-                            <label for="signup-username">Username</label><br>
-                            <input id="signup-username" type="text" placeholder="username">
+                    <% } %>
+
+                    <form action="/signup" method="POST" novalidate>
+                        <div class="formGroup">
+                            <label for="signupFirst">First Name</label>
+                            <input id="signupFirst" name="firstName" type="text" placeholder="First name" value="<%= formData.firstName %>">
                         </div>
-                        <div>
-                            <label for="signup-email">Email</label><br>
-                            <input id="signup-email" type="email" placeholder="you@example.com">
+                        <div class="formGroup">
+                            <label for="signupLast">Last Name</label>
+                            <input id="signupLast" name="lastName" type="text" placeholder="Last name" value="<%= formData.lastName %>">
                         </div>
-                        <div>
-                            <label for="signup-password">Password</label><br>
-                            <input id="signup-password" type="password" placeholder="At least 8 characters">
+                        <div class="formGroup">
+                            <label for="signupUsername">Username</label>
+                            <input id="signupUsername" name="username" type="text" placeholder="username" value="<%= formData.username %>">
+                        </div>
+                        <div class="formGroup">
+                            <label for="signupEmail">Email</label>
+                            <input id="signupEmail" name="email" type="email" placeholder="you@example.com" value="<%= formData.email %>">
+                        </div>
+                        <div class="formGroup">
+                            <label for="signupPassword">Password</label>
+                            <input id="signupPassword" name="password" type="password" placeholder="At least 8 characters" value="<%= formData.password %>">
                         </div>
                         <div class="mainButtons">
                             <button type="submit" class="btn btnPrimary">Create Account</button>
