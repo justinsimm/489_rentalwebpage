@@ -36,19 +36,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Serialize/deserialize — tells passport how to store and retrieve user from session
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await User.findById(id);
-        done(null, user);
-    } catch (err) {
-        done(err);
-    }
-});
+//Passport config
+require('./middleware/passport');
 
 //Route setup
 app.use('/', indexRouter); 
