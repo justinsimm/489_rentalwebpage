@@ -7,9 +7,9 @@ const session = require('express-session');
 var passport = require('passport');
 
 var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
-var public_routesRouter = require('./routes/public_routes');
-var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin.js');
+var public_routesRouter = require('./routes/public_routes.js');
+var usersRouter = require('./routes/users.js');
 var User = require('./models/User.js');
 
 
@@ -24,15 +24,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter); 
-app.use('/', adminRouter);
-app.use('/', public_routesRouter);
-app.use('/users', usersRouter);
-
-//Database setup
-const connectDB = require('./db');
-connectDB();
 
 // Session middleware
 app.use(session({
@@ -58,6 +49,16 @@ passport.deserializeUser(async (id, done) => {
         done(err);
     }
 });
+
+//Route setup
+app.use('/', indexRouter); 
+app.use('/', adminRouter);
+app.use('/', public_routesRouter);
+app.use('/users', usersRouter);
+
+//Database setup
+const connectDB = require('./db.js');
+connectDB();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

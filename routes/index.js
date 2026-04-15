@@ -7,6 +7,7 @@ const User = require('../models/User'); // Import the Database model
 
 /* Login method provided by passport */
 passport.use(new LocalStrategy(async function verify(username, password, next) {
+  console.log("In Passport");
   try{
     console.log("Strategy hit, username:", username);
     const user = await User.findOne({username});
