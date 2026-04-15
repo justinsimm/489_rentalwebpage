@@ -1,14 +1,21 @@
 var express = require('express');
 var router = express.Router();
+const Item = require('../models/Item.js');
+
 
 /* GET browse page. */
-router.get('/browse', function(req, res, next) {
-  res.render('browse', { title: 'Express' });
+router.get('/browse', async function(req, res, next) {
+
 });
 
 /* GET item page. */
-router.get('/item', function(req, res, next) {
-  res.render('item', { title: 'Express' });
+router.get('/item/:id', async function(req, res, next) {
+  try {
+    const item = await Item.findById(req.params.id);
+    res.render('item', { item, title: item.name });
+  } catch (err) {
+    next(err);
+  }
 });
 
 /* GET checkout page. */

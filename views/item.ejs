@@ -28,12 +28,25 @@
         <div class="border">
             <div class="container">
                 <section>
-                    <h1>Party Tent (20x20)</h1>
-                    <img src="Image" alt="Party Tent">
-                    <p><strong>Owner:</strong> Event Rentals Co.</p>
-                    <p><strong>Daily Rate:</strong> $60/day</p>
-                    <p><strong>Location:</strong> Pullman, WA</p>
-                    <p><strong>Status:</strong> Available</p>
+                    <!--Header-->
+                    <div class="item header">
+                        <h1><%= item.name %></h1>
+                    </div>
+
+                    <!--Image-->
+                    <div class="item-image">
+                        <img src="<%= item.imageUrl %>" alt="<%= item.name %>">
+                    </div>
+                    
+                    <!--Item details-->
+                    <div class="item-details">
+                        <p><strong>Owner:</strong> <%= item.owner %></p>
+                        <p><strong>Daily Rate:</strong> <%= item.dailyRate %></p>
+                        <p><strong>Location:</strong> <%= item.location %></p>
+                        <p><strong>Status:</strong> <%= item.status %></p>
+                        <strong>Notes</strong>
+                        <p> <%= item.details %></p>
+                    </div>
 
                     <h3>Availability Calendar</h3>
                     <ul>
@@ -43,12 +56,13 @@
                     </ul>
 
                     <div class="mainButtons">
-                        <a href="/checkout" class="btn btnPrimary">Reserve / Checkout</a>
+                        <% if (item.status === 'Available') { %>
+                            <a href="/checkout?itemId=<%= item.id %>" class="btn btnPrimary">Checkout</a>
+                        <% } else { %>
+                            <button class="btn btnPrimary" disabled>Currently Unavailable</button>
+                        <% } %>
                         <a href="/report_form" class="btn btnSecondary">Report Listing</a>
                     </div>
-
-                    <h3>Item Details</h3>
-                    <p>Includes setup instructions, sidewalls, and stakes. Pickup only. Requires a mid-size vehicle.</p>
 
                     <h3>Reviews</h3>
                     <ul>
