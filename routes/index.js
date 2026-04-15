@@ -1,6 +1,33 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var bcrypt = require('bcrypt')
 const User = require('../models/User'); // Import the Database model
+
+/* Login method provided by passport */
+passport.use(new LocalStrategy(async function verify(username, password, next) {
+  try{
+    console.log("Strategy hit, username:", username);
+    const user = await User.findOne({username});
+    if (!user) { return next(null, false, { message: 'Incorrect username or password.'})};
+
+    console.log("Stored hash:", user.password); // check hash exists
+    console.log("Input password:", password); // check password is coming through
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Password match:", isMatch); // check if compare is working
+
+    if (!isMatch) { return next(null, false, { message: 'Incorrect username or password.'})};
+
+    return next(null, user);
+  } catch(err) {
+    console.log("User could not login: ", err);
+    next(err);
+  }
+
+}));
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -61,13 +88,16 @@ router.post('/signup', async function(req, res, next) {
       });
     }
 
+    //encrypt password
+    const encPass = await bcrypt.hash(password, 10);
+
     //Use Schema to create a new object-like instance
     const newUser = new User({
       firstName,
       lastName,
       username,
       email,
-      password,
+      password: encPass,
       role: 'user' // User role is automatically assigned to general users
     });
 
@@ -86,6 +116,12 @@ router.post('/signup', async function(req, res, next) {
 router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Express' });
 });
+
+/* Post login page. */
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}));
 
 /* GET profile page. */
 router.get('/profile', function(req, res, next) {

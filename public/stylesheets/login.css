@@ -86,6 +86,7 @@ a {
 .btnPrimary {
     background-color: #2563EB;
     color: white;
+    font-size: 18px;
 }
 
 .btnPrimary:hover {
@@ -120,34 +121,44 @@ a {
 
 .mainButtons {
     display: flex;
+    flex-direction: column;
     gap: 16px;
     justify-content: center;
+    margin-top: 32px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .background {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 40px 20px;
+    background-color: #F3F4F6;
 }
 
 .border {
-    padding: 10px;
-    border: 2px solid #E5E7EB;
-    border-radius: 6px;
-    width: 60%;
+    padding: 48px;
+    border: none;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 480px;
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
-.background {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+.formGroup {
+    margin-bottom: 20px;
+    text-align: left;
 }
 
-.border {
-    padding: 10px;
-    border: 2px solid #E5E7EB;
-    border-radius: 6px;
-    width: 80%;
+input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #111827;
+    background-color: #F9FAFB;
+    box-sizing: border-box;
 }

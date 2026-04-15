@@ -30,12 +30,12 @@
                 <section>
                     <h1>Login</h1>
                     <p>Access your account to reserve items, manage listings, and view messages.</p>
-                    <form>
-                        <div>
-                            <label for="login-email">Email</label><br>
-                            <input id="login-email" type="email" placeholder="you@example.com">
+                    <form action="/login" method="POST">
+                        <div class="formGroup">
+                            <label for="login-username">Username</label><br>
+                            <input id="login-username" type="username" placeholder="">
                         </div>
-                        <div>
+                        <div class="formGroup">
                             <label for="login-password">Password</label><br>
                             <input id="login-password" type="password" placeholder="••••••••">
                         </div>
@@ -43,7 +43,6 @@
                             <button type="submit" class="btn btnPrimary">Log In</button>
                             <a href="/signup" class="btn btnSecondary">Create Account</a>
                         </div>
-                        <p><a href="#">Forgot password?</a></p>
                     </form>
                 </section>
             </main>

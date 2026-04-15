@@ -3,11 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
+var passport = require('passport');
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var public_routesRouter = require('./routes/public_routes');
 var usersRouter = require('./routes/users');
+var User = require('./models/User.js');
 
 
 var app = express();
@@ -30,6 +33,31 @@ app.use('/users', usersRouter);
 //Database setup
 const connectDB = require('./db');
 connectDB();
+
+// Session middleware
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Serialize/deserialize — tells passport how to store and retrieve user from session
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err);
+    }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

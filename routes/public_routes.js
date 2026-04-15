@@ -5,7 +5,7 @@ const Item = require('../models/Item.js');
 
 /* GET browse page. */
 router.get('/browse', async function(req, res, next) {
-
+  res.render('browse', {title: 'Browse'});
 });
 
 /* GET item page. */
