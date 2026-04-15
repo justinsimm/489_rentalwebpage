@@ -39,6 +39,13 @@ app.use(passport.session());
 //Passport config
 require('./middleware/passport');
 
+//res-locals middleware
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.path = req.path;
+  next();
+});
+
 //Route setup
 app.use('/', indexRouter); 
 app.use('/', adminRouter);

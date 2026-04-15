@@ -34,8 +34,14 @@ router.get('/order_history', function(req, res, next) {
 });
 
 /* GET rent item page. */
-router.get('/rentItem', function(req, res, next) {
-  res.render('rentItem', { title: 'Express' });
+router.get('/rentItem/:id', async function(req, res, next) {
+  try {
+    const item = await Item.findById(req.params.id);
+    res.render('rentItem', {item, title: 'Express' });
+  } catch(err) {
+    console.log("Could not get item rent page: ", err);
+    next();
+  }
 });
 
 /* GET rent Out page. */
