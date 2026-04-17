@@ -9,6 +9,7 @@
   "dependencies": {
     "bcrypt": "~5.1.0",
     "browser-sync": "^3.0.4",
+    "connect-mongo": "^6.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",

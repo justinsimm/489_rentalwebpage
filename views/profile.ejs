@@ -13,28 +13,38 @@
             <main class="container">
                 <section>
                     <h1>My Profile</h1>
-                    <p>Account details, role access, and quick links to your rentals.</p>
 
-                    <h3>User Links</h3>
-                    <ul>
-                        <li><a href="/user_inbox">Inbox / Messages</a></li>
-                        <li><a href="/order_history">Order History</a></li>
-                        <li><a href="/my_listings">My Listings</a></li>
-                        <li><a href="/earnings">Earnings</a></li>
-                    </ul>
+                    <h3>Account Information</h3>
+                        <div class="infoCard">
+                            <div class="infoRow">
+                                <span class="infoLabel">First Name</span>
+                                <span class="infoValue"><%= user.firstName %></span>
+                            </div>
+                            <div class="infoRow">
+                                <span class="infoLabel">Last Name</span>
+                                <span class="infoValue"><%= user.lastName %></span>
+                            </div>
+                            <div class="infoRow">
+                                <span class="infoLabel">Username</span>
+                                <span class="infoValue"><%= user.username %></span>
+                            </div>
+                            <div class="infoRow">
+                                <span class="infoLabel">Email Address</span>
+                                <span class="infoValue"><%= user.email %></span>
+                            </div>
+                            <div class="infoRow">
+                                <span class="infoLabel">Account Role</span>
+                                <span class="infoValue"><%= user.role %></span>
+                            </div>
+                        </div>
+                    <br>
 
-                    <h3>Moderator Links</h3>
-                    <ul>
-                        <li><a href="/reports_dashboard">Reports Dashboard</a></li>
-                        <li><a href="/admin_inbox">Moderation Inbox</a></li>
-                    </ul>
-
-                    <h3>Admin Links</h3>
-                    <ul>
-                        <li><a href="/admin_home">Admin Home</a></li>
-                        <li><a href="/user_list">User Management</a></li>
-                        <li><a href="/reports_dashboard">Reports Dashboard</a></li>
-                    </ul>
+                    <div class="mainButtons">
+                        <a href="/user_inbox" class="btn btnPrimary">Inbox / Messages</a>
+                        <a href="/my_listings" class="btn btnPrimary">My Listings</a>
+                        <a href="/order_history" class="btn btnPrimary">Order History</a>
+                        <a href="/logout" class="btn btnSecondary">Log Out</a>
+                    </div>
                 </section>
             </main>
         </div>
