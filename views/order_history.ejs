@@ -23,11 +23,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Lawn Mower</td><td>Chris P.</td><td>3/6/2026</td><td>$10</td><td>Active</td></tr>
-                        <tr><td>Party Tent</td><td>Event Rentals Co.</td><td>2/24/2026</td><td>$120</td><td>Completed</td></tr>
-                        <tr><td>Snowboard</td><td>Jamie L.</td><td>2/12/2026</td><td>$45</td><td>Completed</td></tr>
-                        <tr><td>Leaf Blower</td><td>ToolShare</td><td>1/30/2026</td><td>$18</td><td>Cancelled</td></tr>
-                        <tr><td>Folding Chairs (x20)</td><td>Campus Rentals</td><td>1/12/2026</td><td>$50</td><td>Completed</td></tr>
+                        <% orders.forEach(order => { %>
+                            <tr>
+                                <td><%= order.name %></td>
+                                <td><%= order.owner %></td>
+                                <td><%= order.date.toLocaleDateString('en-US') %></td>
+                                <td>$ <% if(isNaN(new Date(order.dateRet))) { %>
+                                    <%= (Math.floor((order.dateRet - order.date) / (1000 * 60 * 60 * 24)))*order.dailyRate %>
+                                 <% } else { %>
+                                    <%= (Math.floor((new Date() - order.date) / (1000 * 60 * 60 * 24)))*order.dailyRate %>
+                                <% } %>
+                                </td>
+                                <td><%= order.status %></td>
+                            </tr>
+                        <% }) %>
                     </tbody>
                 </table>
             </div>

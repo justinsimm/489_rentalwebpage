@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const Item = require('../models/Item.js');
+const Order = require('../models/Order.js');
+const { isAuthenticated } = require('../middleware/auth.js');
 
 
 /* GET browse page. */
@@ -29,8 +31,14 @@ router.get('/my_listings', function(req, res, next) {
 });
 
 /* GET order history page. */
-router.get('/order_history', function(req, res, next) {
-  res.render('orser_history', { title: 'Express' });
+router.get('/order_history', isAuthenticated, async function(req, res, next) {
+  try {
+    const orders = await Order.find({ renter: res.locals.user.username });
+    res.render('order_history', {orders,  title: 'Express' });
+  } catch(err) {
+    console.log("Order History Page could not be retreived", err);
+    next (err);
+  }
 });
 
 /* GET rent item page. */
