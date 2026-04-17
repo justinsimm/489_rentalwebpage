@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
+// Use the safe require here to catch the class regardless of how the ES Module exports it!
+const MongoStore = require('connect-mongo').default || require('connect-mongo');
 var passport = require('passport');
 
 var indexRouter = require('./routes/index');
@@ -27,9 +29,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Session middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
 }));
 
 // Passport middleware
@@ -47,7 +50,7 @@ app.use((req, res, next) => {
 });
 
 //Route setup
-app.use('/', indexRouter); 
+app.use('/', indexRouter);
 app.use('/', adminRouter);
 app.use('/', public_routesRouter);
 app.use('/users', usersRouter);
@@ -57,12 +60,12 @@ const connectDB = require('./db.js');
 connectDB();
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
