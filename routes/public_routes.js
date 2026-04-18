@@ -33,7 +33,9 @@ router.get('/my_listings', function(req, res, next) {
 /* GET order history page. */
 router.get('/order_history', isAuthenticated, async function(req, res, next) {
   try {
-    const orders = await Order.find({ renter: res.locals.user.username });
+    //Query for order history & Populate the item Ref
+    const orders = await Order.find({ renter: req.user._id }).populate('item');
+    console.log(orders);
     res.render('order_history', {orders,  title: 'Express' });
   } catch(err) {
     console.log("Order History Page could not be retreived", err);

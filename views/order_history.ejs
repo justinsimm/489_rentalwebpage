@@ -17,7 +17,7 @@
                         <tr>
                             <th>Item</th>
                             <th>Owner</th>
-                            <th>Date</th>
+                            <th>Order Date</th>
                             <th>Cost</th>
                             <th>Status</th>
                         </tr>
@@ -25,16 +25,16 @@
                     <tbody>
                         <% orders.forEach(order => { %>
                             <tr>
-                                <td><%= order.name %></td>
-                                <td><%= order.owner %></td>
+                                <td><%= order.item.name %></td>
+                                <td><%= order.item.owner %></td>
                                 <td><%= order.date.toLocaleDateString('en-US') %></td>
                                 <td>$ <% if(isNaN(new Date(order.dateRet))) { %>
-                                    <%= (Math.floor((order.dateRet - order.date) / (1000 * 60 * 60 * 24)))*order.dailyRate %>
+                                    <%= (Math.floor((order.dateRet - order.date) / (1000 * 60 * 60 * 24)))*order.item.dailyRate %>
                                  <% } else { %>
-                                    <%= (Math.floor((new Date() - order.date) / (1000 * 60 * 60 * 24)))*order.dailyRate %>
+                                    <%= (Math.floor((new Date() - order.date) / (1000 * 60 * 60 * 24)))*order.item.dailyRate %>
                                 <% } %>
                                 </td>
-                                <td><%= order.status %></td>
+                                <td><%= order.item.status %></td>
                             </tr>
                         <% }) %>
                     </tbody>

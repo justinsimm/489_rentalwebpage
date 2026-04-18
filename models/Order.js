@@ -1,19 +1,10 @@
 // models/Order.js
 const mongoose = require('mongoose');
+const Item = require('./Item')
 
 const orderSchema = new mongoose.Schema({
-    name: {type: String, required: true},
-    owner: {type: String, required: true},
-    renter: {type: String, required: true},
-    location: {type: String, required: true},
-    dailyRate: {type: Number, required: true},
-    status: {
-        type: String, 
-        enum: ["Available", "Rented Out"],
-        required: true
-    },
-    image: {type: String, default: ""}, 
-    details: {type: String, default: ""},
+    item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: true },
+    renter: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     date: {type: Date, required: true},
     dateRet: {type: Date, default: ""}
 });
