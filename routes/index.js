@@ -105,7 +105,7 @@ router.get('/profile', isAuthenticated, function(req, res, next) {
 });
 
 /* GET logout. */
-router.get('/logout', function(req, res, next) {
+router.get('/logout', isAuthenticated, function(req, res, next) {
   req.logout(function(err) {
     res.redirect('/login');
   });

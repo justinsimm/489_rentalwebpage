@@ -35,7 +35,6 @@ router.get('/order_history', isAuthenticated, async function(req, res, next) {
   try {
     //Query for order history & Populate the item Ref
     const orders = await Order.find({ renter: req.user._id }).populate('item');
-    console.log(orders);
     res.render('order_history', {orders,  title: 'Express' });
   } catch(err) {
     console.log("Order History Page could not be retreived", err);
@@ -57,6 +56,35 @@ router.get('/rentItem/:id', async function(req, res, next) {
 /* GET rent Out page. */
 router.get('/rentOutForm', function(req, res, next) {
   res.render('rentOutForm', { title: 'Express' });
+});
+
+/* POST rent Out page. */
+router.post('/rentOutForm', isAuthenticated, async function(req, res, next) {
+  try {
+    //Parse Form Data for input
+    const formData = req.body;
+    console.log(formData);
+    const { name = '', category='', location = '', description = '', dailyRate = '', image='' } = formData;
+
+    //Create the new item
+    const newItem = new Item({
+      name,
+      owner: req.user.username,
+      category,
+      location,
+      dailyRate,
+      status: "Available",
+      image,
+      details: description
+    });
+
+    await newItem.save();
+
+    res.redirect('/browse');
+  } catch(err) {
+    console.log('Could not save the item,', err);
+    next()
+  }
 });
 
 /* GET report page. */

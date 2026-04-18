@@ -18,6 +18,7 @@
                         <li><a href="/user_inbox" class="<%= path === '/user_inbox' ? 'active' : '' %>">Inbox</a></li>
                         <li><a href="/my_listings" class="<%= path === '/my_listings' ? 'active' : '' %>">My Listings</a></li>
                         <li><a href="/profile" class="<%= path === '/profile' ? 'active' : '' %>">Profile</a></li>
+                        <li><a href="/log_out" class="<%= path === '/logout' ? 'active' : '' %>">Logout</a></li>
 
                     <!-- Admin navbar -->
                     <% } else if (user.role === "admin") { %>
@@ -26,6 +27,7 @@
                         <li><a href="/reports_dashboard" class="<%= path === '/reports_dashboard' ? 'active' : '' %>">Reports</a></li>
                         <li><a href="/user_list" class="<%= path === '/user_list' ? 'active' : '' %>">Users</a></li>
                         <li><a href="/admin_inbox" class="<%= path === '/admin_inbox' ? 'active' : '' %>">Inbox</a></li>
+                        <li><a href="/log_out" class="<%= path === '/logout' ? 'active' : '' %>">Logout</a></li>
                     <% } %>
                     
                 </ul>

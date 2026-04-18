@@ -4,6 +4,15 @@ const mongoose = require('mongoose');
 const itemSchema = new mongoose.Schema({
     name: {type: String, required: true},
     owner: {type: String, required: true},
+    category: {
+        type: String,
+        enum: ["Party & Events",
+                "Tools & Equipment",
+                "Electronics",
+                "Sports & Outdoors",
+                "Apparel & Formal Wear",
+                "Other"]
+    },
     location: {type: String, required: true},
     dailyRate: {type: Number, required: true},
     status: {
