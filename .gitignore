@@ -1,3 +1,4 @@
 context/
 node_modules/
 *.env
+eslint.config.js

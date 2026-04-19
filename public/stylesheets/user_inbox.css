@@ -177,6 +177,11 @@ a {
     padding: 0 10px 0 10px;
     border-right: 1px solid #E5E7EB;
     margin-right: 5px;
+    cursor: pointer;
+}
+
+.inbox_filter:hover {
+    color: #2563EB;
 }
 
 /* remove border from last filter to avoid trailing line */
