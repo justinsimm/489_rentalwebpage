@@ -20,6 +20,9 @@
                     <div class="messages-list">
                         <p class="message-item">Person 1</p>
                         <p class="message-item">Person 2</p>
+                        <% messages.forEach(message => { %>
+                            <p class="message-item"><%= message.sender.username %></p>
+                        <% }); %>
                     </div>
                     <div class="message-detail">
                         <p>Select a name to see details</p>

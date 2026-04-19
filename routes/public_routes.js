@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Item = require('../models/Item.js');
 const Order = require('../models/Order.js');
+const Message = require('../models/Message.js');
 const { isAuthenticated } = require('../middleware/auth.js');
 
 
@@ -93,8 +94,15 @@ router.get('/report', function(req, res, next) {
 });
 
 /* GET user inbox page. */
-router.get('/user_inbox', function(req, res, next) {
-  res.render('user_inbox', { title: 'Express' });
+router.get('/user_inbox', isAuthenticated, async function(req, res, next) {
+  try {
+    const messages = await Message.find({ recipient: req.user._id }).populate('sender', 'username');
+
+    res.render('user_inbox', { messages });
+  } catch(err) {
+    console.log('Could not retreive user inbox page', err);
+    next();
+  }
 });
 
 module.exports = router;
