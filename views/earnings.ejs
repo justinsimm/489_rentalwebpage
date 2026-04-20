@@ -14,65 +14,30 @@
                 <h1>Earnings Dashboard</h1>
                 <p class="form-subtitle">Review your revenue and transaction history.</p>
 
-                <!-- Demo Note: Data passed into this view via MVC (earnings totals/transactions). -->
-                <% const summaryTotal = (typeof totalEarnings === 'number') ? totalEarnings : null; %>
-                <% const summaryRecent = (typeof recentEarnings === 'number') ? recentEarnings : null; %>
-                <% const earningsRows = Array.isArray(transactions) ? transactions : []; %>
-                <% const formatMoney = function(value) { return (typeof value === 'number') ? '$' + value.toFixed(2) : 'N/A'; }; %>
-                <% const formatDate = function(value) {
-                    if (!value) { return 'TBD'; }
-                    const date = new Date(value);
-                    return isNaN(date.getTime()) ? String(value) : date.toLocaleDateString();
-                }; %>
-
-                <section class="earnings-summary">
-                    <!-- Demo Note: Summary section uses safe fallbacks for missing totals. -->
+                <form class="rentForm">
                     <div class="formGroup">
                         <label>All-Time Earnings</label>
-                        <input type="text" class="form-input" value="<%= summaryTotal !== null ? formatMoney(summaryTotal) : 'No data yet' %>" readonly>
+                        <input type="text" class="form-input" value="$1,250.00">
                     </div>
 
                     <div class="formGroup">
                         <label>Earnings (Last 30 Days)</label>
-                        <input type="text" class="form-input" value="<%= summaryRecent !== null ? formatMoney(summaryRecent) : 'No data yet' %>" readonly>
+                        <input type="text" class="form-input" value="$450.00">
                     </div>
-                </section>
 
-                <section class="earnings-history">
-                    <!-- Demo Note: Table renders transaction rows or an empty-state fallback. -->
-                    <h2>Transaction History</h2>
-                    <table class="earnings-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Item</th>
-                                <th>Renter</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if (earningsRows.length === 0) { %>
-                                <tr>
-                                    <td colspan="4">No transactions yet.</td>
-                                </tr>
-                            <% } else { %>
-                                <% earningsRows.forEach(function(row) { %>
-                                    <tr>
-                                        <% const safeRow = row || {}; %>
-                                        <td><%= formatDate(safeRow.date || safeRow.createdAt) %></td>
-                                        <td><%= safeRow.itemName || (safeRow.item && safeRow.item.name) || 'Item not listed' %></td>
-                                        <td><%= safeRow.renterName || (safeRow.renter && safeRow.renter.name) || 'Unknown renter' %></td>
-                                        <td><%= formatMoney(safeRow.amount) %></td>
-                                    </tr>
-                                <% }); %>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </section>
+                    <div class="formGroup">
+                        <label>Transaction History</label>
+                        <textarea class="form-input">
+                            Date: 3/6/2026 - Rented: Bouncy House - Revenue: $150.00
+                            Date: 3/4/2026 - Rented: Chairs (x20) - Revenue: $50.00
+                            Date: 2/23/2026 - Rented: Tent - Revenue: $250.00
+                        </textarea>
+                    </div>
 
-                <div class="mainButtons">
-                    <a href="/profile" class="btn btnSecondary">Back to Profile</a>
-                </div>
+                    <div class="mainButtons">
+                        <a href="/profile" class="btn btnSecondary">Back to Profile</a>
+                    </div>
+                </form>
             </div>
         </div>
     </main>

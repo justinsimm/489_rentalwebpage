@@ -75,7 +75,7 @@
                                     </div>
                                     <p class="listing-description"><%= safeItem.description || 'No description provided.' %></p>
                                     <div class="listing-footer">
-                                        <span class="listing-price"><%= formatPrice(safeItem.price) %></span>
+                                        <span class="listing-price"><%= formatPrice(safeItem.dailyRate) %></span>
                                         <a class="btn" href="/item/<%= safeItem._id %>">View Details</a>
                                     </div>
                                 </article>

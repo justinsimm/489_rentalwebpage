@@ -14,47 +14,48 @@
                 <h1>Reports Dashboard</h1>
                 <p>Review reported listings and take moderation actions.</p>
 
-                <!-- Demo Note: Data passed into this view via MVC (reports list). -->
-                <% const reportList = Array.isArray(reports) ? reports : []; %>
-                <% const formatDate = function(value) {
-                    if (!value) { return 'TBD'; }
-                    const date = new Date(value);
-                    return isNaN(date.getTime()) ? String(value) : date.toLocaleDateString();
-                }; %>
-
                 <table>
-                    <!-- Demo Note: Table renders reports with safe fallbacks. -->
                     <thead>
                         <tr>
+                            <th>Report ID</th>
                             <th>Item</th>
                             <th>Reason</th>
+                            <th>Reporter</th>
                             <th>Status</th>
-                            <th>Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% if (reportList.length === 0) { %>
-                            <!-- Demo Note: Empty-state fallback when no reports exist. -->
-                            <tr>
-                                <td colspan="5">No reports available.</td>
-                            </tr>
-                        <% } else { %>
-                            <% reportList.forEach(function(report) { %>
-                                <% const safeReport = report || {}; %>
-                                <tr>
-                                    <td><%= safeReport.itemName || (safeReport.item && safeReport.item.name) || 'Item not listed' %></td>
-                                    <td><%= safeReport.reason || 'No reason provided' %></td>
-                                    <td><%= safeReport.status || 'Open' %></td>
-                                    <td><%= formatDate(safeReport.date || safeReport.createdAt) %></td>
-                                    <td>
-                                        <!-- Demo Note: Action buttons are placeholders for moderation logic. -->
-                                        <button class="btn btnPrimary" type="button">View</button>
-                                        <button class="btn btnSecondary" type="button">Resolve</button>
-                                    </td>
-                                </tr>
-                            <% }); %>
-                        <% } %>
+                        <tr>
+                            <td>R-1021</td>
+                            <td>Leaf Blower</td>
+                            <td>Inappropriate Listing</td>
+                            <td>user_419</td>
+                            <td>Open</td>
+                            <td>
+                                <button class="btn btnPrimary">View</button>
+                                <button class="btn btnSecondary">Remove Listing</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>R-1022</td>
+                            <td>Party Tent</td>
+                            <td>Misleading Details</td>
+                            <td>event_planner</td>
+                            <td>Open</td>
+                            <td>
+                                <button class="btn btnPrimary">View</button>
+                                <button class="btn btnSecondary">Dismiss</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>R-1019</td>
+                            <td>Snowboard</td>
+                            <td>Scam Attempt</td>
+                            <td>kate88</td>
+                            <td>Resolved</td>
+                            <td><button class="btn btnSecondary">Reopen</button></td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -64,5 +65,7 @@
             </div>
         </div>
     </div>
+
+    <script src="../js/app.js"></script>
 </body>
 </html>
