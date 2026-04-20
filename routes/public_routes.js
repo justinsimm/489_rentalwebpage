@@ -187,7 +187,7 @@ router.post('/rentApproval/:id', isAuthenticated, async function(req, res, next)
       await Item.findByIdAndUpdate(message.item._id, { status: "Reserved" });
 
       //Add item to the user's cart
-      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item_id } } );
+      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item._id } } );
 
       //Remove the message from the user_inbox
     } else {

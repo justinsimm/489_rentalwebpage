@@ -20,7 +20,7 @@
 
                     <!--Image-->
                     <div class="item-image">
-                        <img src="<%= safeItem.image || '' %>" alt="<%= safeItem.name ? safeItem.name : 'Item image' %>">
+                        <img src="<%= safeItem.image || '' %>">
                     </div>
                     
                     <!--Item details-->
@@ -35,18 +35,12 @@
 
                     <div class="mainButtons">
                         <% if (safeItem.status === 'Available') { %>
-                            <a href="/checkout?itemId=<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Checkout</a>
+                            <a href="/rentItem/<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Rent Item</a>
                         <% } else { %>
                             <button class="btn btnPrimary" disabled>Currently Unavailable</button>
                         <% } %>
                         <a href="/report" class="btn btnSecondary">Report Listing</a>
                     </div>
-
-                    <% if (safeItem._id) { %>
-                        <form method="post" action="/cart/add/<%= safeItem._id %>">
-                            <button class="btn btnSecondary" type="submit">Add to Cart</button>
-                        </form>
-                    <% } %>
                 </section>
             </div>
         </div>
