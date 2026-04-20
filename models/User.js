@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   role: String,
   lastName: String,
-  cart: [{ type: mongoose.Schema.Types.ObjectId, ref:'Item' }]
+  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
 });
 
 module.exports = mongoose.model('User', userSchema);

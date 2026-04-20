@@ -11,47 +11,87 @@
     <div class="background">
         <div class="border">
             <main class="container">
-                <section>
+                <section class="browse-hero">
+                    <!-- Demo Note: Search form submits to the existing browse route. -->
                     <h1>Browse Listings</h1>
                     <p>Search and filter available rentals in your community.</p>
-                    <div>
-                        <label for="search-input">Search</label><br>
-                        <input id="search-input" type="text" placeholder="Search by keyword or item name">
-                        <button class="btn btnPrimary" type="button">Search</button>
+                    <form class="browse-filters" method="get" action="/browse">
+                        <div class="filter-row">
+                            <label for="search-input">Search</label>
+                            <input id="search-input" name="q" type="text" placeholder="Search by keyword or item name">
+                            <button class="btn btnPrimary" type="submit">Search</button>
+                        </div>
+                        <div class="filter-row">
+                            <label for="category-filter">Category</label>
+                            <select id="category-filter" name="category">
+                                <option value="">All Categories</option>
+                                <option>Party & Events</option>
+                                <option>Tools & Equipment</option>
+                                <option>Electronics</option>
+                                <option>Sports & Outdoors</option>
+                                <option>Apparel & Formal Wear</option>
+                            </select>
+                            <label for="distance-filter">Distance</label>
+                            <select id="distance-filter" name="distance">
+                                <option value="">Any Distance</option>
+                                <option>Within 5 miles</option>
+                                <option>Within 10 miles</option>
+                                <option>Within 25 miles</option>
+                                <option>Within 50 miles</option>
+                            </select>
+                            <label for="availability-filter">Availability</label>
+                            <select id="availability-filter" name="availability">
+                                <option value="">Any Date</option>
+                                <option>This Week</option>
+                                <option>This Weekend</option>
+                                <option>Next 30 Days</option>
+                            </select>
+                        </div>
+                    </form>
+                </section>
+
+                <% const listingItems = Array.isArray(items) ? items : []; %>
+                <% const formatPrice = function(value) { return (typeof value === 'number') ? '$' + value + '/day' : 'Price on request'; }; %>
+                <!-- Demo Note: Data rendering and fallback logic are handled in the grid below. -->
+                <section class="browse-results">
+                    <div class="results-header">
+                        <h2>Available Items</h2>
+                        <p><%= listingItems.length %> item(s) found</p>
                     </div>
-                    <div>
-                        <label for="category-filter">Category</label><br>
-                        <select id="category-filter">
-                            <option>All Categories</option>
-                            <option>Party & Events</option>
-                            <option>Tools & Equipment</option>
-                            <option>Electronics</option>
-                            <option>Sports & Outdoors</option>
-                            <option>Apparel & Formal Wear</option>
-                        </select>
-                        <label for="distance-filter">Distance</label><br>
-                        <select id="distance-filter">
-                            <option>Within 5 miles</option>
-                            <option>Within 10 miles</option>
-                            <option>Within 25 miles</option>
-                            <option>Within 50 miles</option>
-                        </select>
-                        <label for="availability-filter">Availability</label><br>
-                        <select id="availability-filter">
-                            <option>Any Date</option>
-                            <option>This Week</option>
-                            <option>This Weekend</option>
-                            <option>Next 30 Days</option>
-                        </select>
-                    </div>
-                    <div>
-                        <h3>Featured Listings</h3>
-                        <ul class="featureListings">
-                            <li><a href="/item">Lawn Mower</a> — $10/day — Available this weekend</li>
-                            <li><a href="/item">Party Tent</a> — $60/day — Available 3/10-3/14</li>
-                            <li><a href="/item">Snowboard</a> — $15/day — Available next week</li>
-                        </ul>
-                    </div>
+                    <% if (listingItems.length === 0) { %>
+                        <!-- Demo Note: Empty-state fallback when there are no items. -->
+                        <div class="empty-state">
+                            <p>No items available right now. Please check back soon.</p>
+                        </div>
+                    <% } else { %>
+                        <div class="listing-grid">
+                            <% listingItems.forEach(function(item) { %>
+                                <% const safeItem = item || {}; %>
+                                <!-- Demo Note: Card renders item data with safe fallbacks. -->
+                                <article class="listing-card">
+                                    <div class="listing-meta">
+                                        <h3 class="listing-title"><%= safeItem.name || 'Untitled Item' %></h3>
+                                        <p class="listing-category"><%= safeItem.category || 'General' %></p>
+                                    </div>
+                                    <p class="listing-description"><%= safeItem.description || 'No description provided.' %></p>
+                                    <div class="listing-footer">
+                                        <span class="listing-price"><%= formatPrice(safeItem.price) %></span>
+                                        <a class="btn" href="/item/<%= safeItem._id %>">View Details</a>
+                                    </div>
+                                </article>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                </section>
+
+                <section class="browse-featured">
+                    <!-- Demo Note: Featured list is static placeholder content. -->
+                    <h3>Featured Listings</h3>
+                    <ul class="featureListings">
+                        <li>Lawn Mower - $10/day - Available this weekend</li>
+                        <li>Party Tent - $60/day - Available 3/10-3/14</li>
+                        <li>Snowboard - $15/day - Available next week</li>
+                    </ul>
                 </section>
             </main>
         </div>

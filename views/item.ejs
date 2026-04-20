@@ -13,39 +13,44 @@
             <div class="container">
                 <section>
                     <!--Header-->
+                    <% const safeItem = item || {}; %>
                     <div class="item header">
-                        <h1><%= item.name.charAt(0).toUpperCase() + item.name.slice(1) %></h1>
+                        <h1><%= safeItem.name ? safeItem.name.charAt(0).toUpperCase() + safeItem.name.slice(1) : 'Item Details' %></h1>
                     </div>
 
                     <!--Image-->
                     <div class="item-image">
-                        <img src="<%= item.image %>" alt="">
+                        <img src="<%= safeItem.image || '' %>" alt="<%= safeItem.name ? safeItem.name : 'Item image' %>">
                     </div>
                     
                     <!--Item details-->
                     <div class="item-details">
-                        <p><strong>Owner:</strong> <%= item.owner %></p>
-                        <p><strong>Daily Rate:</strong> <%= item.dailyRate %></p>
-                        <p><strong>Location:</strong> <%= item.location %></p>
-                        <p><strong>Status:</strong> <%= item.status %></p>
+                        <p><strong>Owner:</strong> <%= safeItem.owner || 'Unknown' %></p>
+                        <p><strong>Daily Rate:</strong> <%= (safeItem.dailyRate !== undefined && safeItem.dailyRate !== null && String(safeItem.dailyRate).trim() !== '') ? safeItem.dailyRate : 'N/A' %></p>
+                        <p><strong>Location:</strong> <%= safeItem.location || 'N/A' %></p>
+                        <p><strong>Status:</strong> <%= safeItem.status || 'Unavailable' %></p>
                         <strong>Notes</strong>
-                        <p> <%= item.details %> </p>
+                        <p> <%= safeItem.details || 'No additional details.' %> </p>
                     </div>
 
                     <div class="mainButtons">
-                        <% if (item.status === 'Available') { %>
-                            <a href="/checkout?itemId=<%= item.id %>" class="btn btnPrimary">Checkout</a>
+                        <% if (safeItem.status === 'Available') { %>
+                            <a href="/checkout?itemId=<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Checkout</a>
                         <% } else { %>
                             <button class="btn btnPrimary" disabled>Currently Unavailable</button>
                         <% } %>
                         <a href="/report" class="btn btnSecondary">Report Listing</a>
                     </div>
+
+                    <% if (safeItem._id) { %>
+                        <form method="post" action="/cart/add/<%= safeItem._id %>">
+                            <button class="btn btnSecondary" type="submit">Add to Cart</button>
+                        </form>
+                    <% } %>
                 </section>
             </div>
         </div>
     </div>
     
-
-    <script src="../js/app.js"></script>
 </body>
 </html>

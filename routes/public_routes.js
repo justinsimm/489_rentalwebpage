@@ -9,7 +9,13 @@ const { isAuthenticated } = require('../middleware/auth.js');
 
 /* GET browse page. */
 router.get('/browse', async function(req, res, next) {
-  res.render('browse', {title: 'Browse'});
+  try {
+    const items = await Item.find();
+    res.render('browse', { items, title: 'Browse' });
+  } catch (err) {
+    console.log('Could not load browse items:', err);
+    next(err);
+  }
 });
 
 /* GET item page. */
@@ -25,6 +31,44 @@ router.get('/item/:id', async function(req, res, next) {
 /* GET checkout page. */
 router.get('/checkout', function(req, res, next) {
   res.render('checkout', { title: 'Express' });
+});
+
+/* POST add item to cart. */
+router.post('/cart/add/:id', isAuthenticated, async function(req, res, next) {
+  try {
+    const itemId = req.params.id;
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.redirect('/login');
+    }
+
+    const alreadyInCart = user.cart.some(function(cartId) {
+      return cartId.toString() === itemId;
+    });
+
+    if (!alreadyInCart) {
+      user.cart.push(itemId);
+      await user.save();
+    }
+
+    res.redirect('/cart');
+  } catch (err) {
+    console.log('Could not add item to cart:', err);
+    next(err);
+  }
+});
+
+/* GET cart page. */
+router.get('/cart', isAuthenticated, async function(req, res, next) {
+  try {
+    const user = await User.findById(req.user._id).populate('cart');
+    const cartItems = user && Array.isArray(user.cart) ? user.cart : [];
+    res.render('cart', { cartItems, title: 'Cart' });
+  } catch (err) {
+    console.log('Could not load cart:', err);
+    next(err);
+  }
 });
 
 /* GET my listings page. */
