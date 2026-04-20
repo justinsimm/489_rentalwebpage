@@ -8,44 +8,62 @@
 </head>
 <body>
     <%- include('partials/navbar') %>
+    <% const safeItem = item || {}; %>
     <div class="background">
         <div class="border">
-            <div class="container">
-                <section>
-                    <!--Header-->
-                    <div class="item header">
-                        <h1><%= item.name.charAt(0).toUpperCase() + item.name.slice(1) %></h1>
-                    </div>
+            <article class="item-card">
 
-                    <!--Image-->
-                    <div class="item-image">
-                        <img src="<%= item.imageUrl %>" alt="">
-                    </div>
-                    
-                    <!--Item details-->
-                    <div class="item-details">
-                        <p><strong>Owner:</strong> <%= item.owner %></p>
-                        <p><strong>Daily Rate:</strong> <%= item.dailyRate %></p>
-                        <p><strong>Location:</strong> <%= item.location %></p>
-                        <p><strong>Status:</strong> <%= item.status %></p>
-                        <strong>Notes</strong>
-                        <p> <%= item.details %> </p>
-                    </div>
+                <div class="item-meta">
+                    <h1 class="item-title"><%= safeItem.name ? safeItem.name.charAt(0).toUpperCase() + safeItem.name.slice(1) : 'Item Details' %></h1>
+                    <% const status = safeItem.status || 'Unavailable'; %>
+                    <span class="status-badge status-<%= status.toLowerCase().replace(/\s+/g, '-') %>"><%= status %></span>
+                </div>
 
-                    <div class="mainButtons">
-                        <% if (item.status === 'Available') { %>
-                            <a href="/checkout?itemId=<%= item.id %>" class="btn btnPrimary">Checkout</a>
-                        <% } else { %>
-                            <button class="btn btnPrimary" disabled>Currently Unavailable</button>
-                        <% } %>
-                        <a href="/report?itemId=<%= item._id %>" class="btn btnSecondary">Report Listing</a>
+                <% if (safeItem.image) { %>
+                <div class="item-image">
+                    <img src="<%= safeItem.image %>" alt="<%= safeItem.name || 'Item image' %>">
+                </div>
+                <% } %>
+
+                <div class="item-info-grid">
+                    <div class="info-row">
+                        <span class="info-label">Owner</span>
+                        <span class="info-value"><%= safeItem.owner || 'Unknown' %></span>
                     </div>
-                </section>
-            </div>
+                    <div class="info-row">
+                        <span class="info-label">Daily Rate</span>
+                        <span class="info-value info-price"><%= (safeItem.dailyRate != null && String(safeItem.dailyRate).trim() !== '') ? '$' + safeItem.dailyRate + '/day' : 'N/A' %></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Pickup Location</span>
+                        <span class="info-value"><%= safeItem.location || 'N/A' %></span>
+                    </div>
+                    <% if (safeItem.category) { %>
+                    <div class="info-row">
+                        <span class="info-label">Category</span>
+                        <span class="info-value"><%= safeItem.category %></span>
+                    </div>
+                    <% } %>
+                </div>
+
+                <% if (safeItem.details) { %>
+                <div class="item-notes">
+                    <p class="notes-label">Notes</p>
+                    <p class="notes-body"><%= safeItem.details %></p>
+                </div>
+                <% } %>
+
+                <div class="item-footer">
+                    <% if (safeItem.status === 'Available') { %>
+                        <a href="/rentItem/<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Rent Item</a>
+                    <% } else { %>
+                        <button class="btn btnPrimary" disabled>Currently Unavailable</button>
+                    <% } %>
+                    <a href="/report" class="btn btnSecondary">Report Listing</a>
+                </div>
+
+            </article>
         </div>
     </div>
-    
-
-    <script src="../js/app.js"></script>
 </body>
 </html>

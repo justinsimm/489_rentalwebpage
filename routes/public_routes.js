@@ -3,12 +3,20 @@ var router = express.Router();
 const Item = require('../models/Item.js');
 const Order = require('../models/Order.js');
 const Report = require('../models/Report.js');
+const Message = require('../models/Message.js');
+const User = require('../models/User.js');
 const { isAuthenticated } = require('../middleware/auth.js');
 
 
 /* GET browse page. */
 router.get('/browse', async function(req, res, next) {
-  res.render('browse', {title: 'Browse'});
+  try {
+    const items = await Item.find();
+    res.render('browse', { items, title: 'Browse' });
+  } catch (err) {
+    console.log('Could not load browse items:', err);
+    next(err);
+  }
 });
 
 /* GET item page. */
@@ -22,8 +30,79 @@ router.get('/item/:id', async function(req, res, next) {
 });
 
 /* GET checkout page. */
-router.get('/checkout', function(req, res, next) {
-  res.render('checkout', { title: 'Express' });
+router.get('/checkout', async function(req, res, next) {
+  try {
+    const itemId = req.query.itemId;
+    const item = itemId ? await Item.findById(itemId) : null;
+    res.render('checkout', { item, title: 'Express' });
+  } catch (err) {
+    console.log('Could not load checkout item:', err);
+    next(err);
+  }
+});
+
+/* POST checkout page. */
+router.post('/checkout', isAuthenticated, async function(req, res, next) {
+  try {
+    const itemId = req.body.itemId || req.query.itemId;
+    if (!itemId || !req.user) {
+      return res.redirect('/browse');
+    }
+
+    const item = await Item.findById(itemId);
+    if (!item) {
+      return res.redirect('/browse');
+    }
+
+    const order = new Order({
+      item: item._id,
+      renter: req.user._id
+    });
+
+    await order.save();
+    res.redirect('/order_history');
+  } catch (err) {
+    console.log('Could not create order:', err);
+    next(err);
+  }
+});
+
+/* POST add item to cart. */
+router.post('/cart/add/:id', isAuthenticated, async function(req, res, next) {
+  try {
+    const itemId = req.params.id;
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.redirect('/login');
+    }
+
+    const alreadyInCart = user.cart.some(function(cartId) {
+      return cartId.toString() === itemId;
+    });
+
+    if (!alreadyInCart) {
+      user.cart.push(itemId);
+      await user.save();
+    }
+
+    res.redirect('/cart');
+  } catch (err) {
+    console.log('Could not add item to cart:', err);
+    next(err);
+  }
+});
+
+/* GET cart page. */
+router.get('/cart', isAuthenticated, async function(req, res, next) {
+  try {
+    const user = await User.findById(req.user._id).populate('cart');
+    const cartItems = user && Array.isArray(user.cart) ? user.cart : [];
+    res.render('cart', { cartItems, title: 'Cart' });
+  } catch (err) {
+    console.log('Could not load cart:', err);
+    next(err);
+  }
 });
 
 /* GET reports_dashboard page. */
@@ -71,12 +150,36 @@ router.get('/rentItem/:id', async function(req, res, next) {
   }
 });
 
+/* Post rent item page. 
+   send message to the owner for approval */
+router.post('/rentItem/:id', isAuthenticated, async function(req, res, next) {
+  try {
+    const item = await Item.findById(req.params.id);
+    const owner = await User.findOne({ username: item.owner });
+
+    const message = new Message({
+        sender: req.user._id,
+        recipient: owner._id,
+        type: "order",
+        message: req.body.message,
+        item: item._id
+    });
+
+    await message.save();
+    res.redirect('/user_inbox');
+  } catch(err) {
+    console.log("Could not rent item: ", err);
+    next();
+  }
+});
+
 /* GET rent Out page. */
 router.get('/rentOutForm', function(req, res, next) {
   res.render('rentOutForm', { title: 'Express' });
 });
 
 /* POST rent Out page. */
+/* Item creation */
 router.post('/rentOutForm', isAuthenticated, async function(req, res, next) {
   try {
     //Parse Form Data for input
@@ -169,8 +272,50 @@ router.post('/report', isAuthenticated, async function(req, res, next) {
 });
 
 /* GET user inbox page. */
-router.get('/user_inbox', function(req, res, next) {
-  res.render('user_inbox', { title: 'Express' });
+router.get('/user_inbox', isAuthenticated, async function(req, res, next) {
+  try {
+    const messages = await Message.find({ recipient: req.user._id }).populate('sender', 'username');
+
+    res.render('user_inbox', { messages });
+  } catch(err) {
+    console.log('Could not retreive user inbox page: ', err);
+    next();
+  }
+});
+
+/* POST method for rentApproval
+- approve/decline rent requests
+- reserve items that are approved */
+router.post('/rentApproval/:id', isAuthenticated, async function(req, res, next) {
+  try {
+    //Retreive message so the item can be updated
+    const message = await Message.findById(req.params.id).populate('item');
+
+    //Updated item to reserved status if approved
+    if (req.body.decision === "approve") {
+      await Item.findByIdAndUpdate(message.item._id, { status: "Reserved" });
+
+      //Add item to the user's cart
+      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item._id } } );
+
+      //Remove the message from the user_inbox
+    } else {
+      //Send harcoded rejection letter to requester
+      const declineMessage = new Message({
+        sender: req.user._id,
+        recipient: message.sender,
+        type: "inform",
+        message: `Your request to rent ${message.item.name} has been declined.`
+      });
+      await declineMessage.save();
+    }
+
+    await Message.findByIdAndDelete(req.params.id);
+    res.redirect('/user_inbox');
+  } catch(err) {
+    console.log('Could not process rent approval: ', err);
+    next(err);
+  }
 });
 
 module.exports = router;

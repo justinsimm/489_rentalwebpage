@@ -11,43 +11,40 @@
     <div class="background">
         <div class="border">
             <div class="container">
-                 <h1>User List</h1>
-                 <table class="user-table">
+                <header class="page-header">
+                    <h1>User List</h1>
+                    <p>Manage accounts and review roles.</p>
+                </header>
+
+                <!-- Demo Note: Data passed into this view via MVC (users list). -->
+                <% const userList = Array.isArray(users) ? users : []; %>
+                <table class="user-table">
                     <thead>
                         <tr>
-                            <th>Username</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Ban</th>
+                            <th>Role</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>TheRenter</td>
-                            <td>Steve Jobs</td>
-                            <td>Imemployed@hotmail.com</td>
-                            <td><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        <% if (userList.length === 0) { %>
+                            <!-- Demo Note: Empty-state fallback when no users exist. -->
+                            <tr>
+                                <td colspan="3">No users found.</td>
+                            </tr>
+                        <% } else { %>
+                            <% userList.forEach(function(user) { %>
+                                <% const safeUser = user || {}; %>
+                                <!-- Demo Note: Loop renders user data with safe fallbacks. -->
+                                <tr>
+                                    <td><%= safeUser.name || safeUser.username || 'Unnamed User' %></td>
+                                    <td><%= safeUser.email || 'No email on file' %></td>
+                                    <td><%= safeUser.role || 'User' %></td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
                     </tbody>
-                 </table>
+                </table>
             </div>
         </div>
     </div>

@@ -12,66 +12,103 @@
         <div class="border">
             <div class="container">
                 <h1>Checkout</h1>
-                <div class="checkout_form">
-                    <h2>Shipping Address</h2>
-                    <label for="text_box">Full Name:</label>
-                    <input class="text_box">
-                    <label for="text_box">Street Address:</label>
-                    <input class="text_box">
-                    <label for="text_box">City:</label>
-                    <input class="text_box">
-                    <label for="text_box">State:</label>
-                    <input class="text_box">
-                    <label for="text_box">ZIP Code:</label>
-                    <input class="text_box">
-                    <label for="text_box">Phone Number:</label>
-                    <input class="text_box">
 
-                    <h2>Billing Address</h2>
-                    <label for="text_box">Same as shipping:</label>
-                    <input type="checkbox">
-                    <label for="text_box">Full Name:</label>
-                    <input class="text_box">
-                    <label for="text_box">Street Address:</label>
-                    <input class="text_box">
-                    <label for="text_box">City:</label>
-                    <input class="text_box">
-                    <label for="text_box">State:</label>
-                    <input class="text_box">
-                    <label for="text_box">ZIP Code:</label>
-                    <input class="text_box">
+                <!-- Demo Note: Data passed into this view via MVC (order/item). -->
+                <% const orderData = order || {}; %>
+                <% const itemData = orderData.item || item || {}; %>
+                <% const formatMoney = function(value) { return (typeof value === 'number') ? '$' + value.toFixed(2) : 'N/A'; }; %>
+                <% const formatDate = function(value) {
+                    if (!value) { return 'TBD'; }
+                    const date = new Date(value);
+                    return isNaN(date.getTime()) ? String(value) : date.toLocaleDateString();
+                }; %>
 
-                    <h2>Payment Info</h2>
-                    <label for="text_box">Credit Card Number:</label>
-                    <input class="text_box">
-                    <label for="text_box">Name on Card:</label>
-                    <input class="text_box">
-                    <label for="text_box">Expiration Date (MM/YY):</label>
-                    <input class="text_box">
-                    <label for="text_box">CVV (3-4 digits):</label>
-                    <input class="text_box">
-                    <label for="text_box">Card Type:</label>
-                    <input class="text_box">
-                    <label for="text_box">Card Type:</label>
-                    <select id="card-type" name="card_type">
-                        <option value="Visa">Visa</option>
-                        <option value="mastercard">MasterCard</option>
-                        <option value="american_express">American Express</option>
-                        <option value="discover">Discover</option>
-                    </select>
+                <!-- Demo Note: Form submits to the existing checkout route (POST). -->
+                <form class="checkout_form" method="post" action="/checkout">
+                    <% if (itemData && itemData._id) { %>
+                        <input type="hidden" name="itemId" value="<%= itemData._id %>">
+                    <% } %>
+                    <section class="checkout-section">
+                        <!-- Demo Note: Summary section renders item/order data with fallbacks. -->
+                        <h2>Order Summary</h2>
+                        <div class="summary-card">
+                            <p><strong>Item:</strong> <%= itemData.name || 'Item not available' %></p>
+                            <p><strong>Category:</strong> <%= itemData.category || 'General' %></p>
+                            <p><strong>Rental Dates:</strong> <%= formatDate(orderData.startDate) %> - <%= formatDate(orderData.endDate) %></p>
+                            <p><strong>Daily Rate:</strong> <%= formatMoney(itemData.dailyRate) %></p>
+                        </div>
+                    </section>
 
-                    <h2>Cart</h2>
-                    <div class="cart_container">
-                        <p>Lawn Mower: $10</p>
-                        <p>Service Fee: $2</p>
-                        <p>Tax: $0.80</p>
-                        <p>Total: $12.80</p>
-                    </div>
+                    <section class="checkout-section">
+                        <!-- Demo Note: Shipping form fields (required). -->
+                        <h2>Shipping Address</h2>
+                        <label for="shipping-name">Full Name:</label>
+                        <input id="shipping-name" class="text_box" type="text" required>
+                        <label for="shipping-street">Street Address:</label>
+                        <input id="shipping-street" class="text_box" type="text" required>
+                        <label for="shipping-city">City:</label>
+                        <input id="shipping-city" class="text_box" type="text" required>
+                        <label for="shipping-state">State:</label>
+                        <input id="shipping-state" class="text_box" type="text" required>
+                        <label for="shipping-zip">ZIP Code:</label>
+                        <input id="shipping-zip" class="text_box" type="text" required>
+                        <label for="shipping-phone">Phone Number:</label>
+                        <input id="shipping-phone" class="text_box" type="tel" required>
+                    </section>
+
+                    <section class="checkout-section">
+                        <!-- Demo Note: Billing section mirrors shipping; optional inputs. -->
+                        <h2>Billing Address</h2>
+                        <label for="billing-same">Same as shipping:</label>
+                        <input id="billing-same" type="checkbox">
+                        <label for="billing-name">Full Name:</label>
+                        <input id="billing-name" class="text_box" type="text">
+                        <label for="billing-street">Street Address:</label>
+                        <input id="billing-street" class="text_box" type="text">
+                        <label for="billing-city">City:</label>
+                        <input id="billing-city" class="text_box" type="text">
+                        <label for="billing-state">State:</label>
+                        <input id="billing-state" class="text_box" type="text">
+                        <label for="billing-zip">ZIP Code:</label>
+                        <input id="billing-zip" class="text_box" type="text">
+                    </section>
+
+                    <section class="checkout-section">
+                        <!-- Demo Note: Payment fields are placeholders for demo only. -->
+                        <h2>Payment Info</h2>
+                        <label for="card-number">Credit Card Number:</label>
+                        <input id="card-number" class="text_box" type="text" required>
+                        <label for="card-name">Name on Card:</label>
+                        <input id="card-name" class="text_box" type="text" required>
+                        <label for="card-exp">Expiration Date (MM/YY):</label>
+                        <input id="card-exp" class="text_box" type="text" required>
+                        <label for="card-cvv">CVV (3-4 digits):</label>
+                        <input id="card-cvv" class="text_box" type="text" required>
+                        <label for="card-type">Card Type:</label>
+                        <select id="card-type">
+                            <option value="Visa">Visa</option>
+                            <option value="mastercard">MasterCard</option>
+                            <option value="american_express">American Express</option>
+                            <option value="discover">Discover</option>
+                        </select>
+                    </section>
+
+                    <section class="checkout-section">
+                        <!-- Demo Note: Pricing breakdown rendered with safe fallbacks. -->
+                        <h2>Rental Details</h2>
+                        <div class="cart_container">
+                            <p><strong>Subtotal:</strong> <%= formatMoney(orderData.subtotal) %></p>
+                            <p><strong>Service Fee:</strong> <%= formatMoney(orderData.fees) %></p>
+                            <p><strong>Tax:</strong> <%= formatMoney(orderData.tax) %></p>
+                            <p><strong>Total:</strong> <%= formatMoney(orderData.total) %></p>
+                        </div>
+                    </section>
+
                     <div class="mainButtons">
-                        <button class="btn btnPrimary" type="button">Place Order</button>
+                        <button class="btn btnPrimary" type="submit">Place Order</button>
                         <a class="btn btnSecondary" href="/browse">Back to Browse</a>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

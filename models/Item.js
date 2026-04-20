@@ -17,7 +17,7 @@ const itemSchema = new mongoose.Schema({
     dailyRate: {type: Number, required: true},
     status: {
         type: String, 
-        enum: ["Available", "Rented Out"],
+        enum: ["Available", "Reserved", "Rented Out"],
         required: true
     },
     image: {type: String, default: ""}, 

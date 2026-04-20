@@ -12,33 +12,38 @@
         <div class="border">
             <div class="container">
                 <h1>Order History</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Owner</th>
-                            <th>Order Date</th>
-                            <th>Cost</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% orders.forEach(order => { %>
-                            <tr>
-                                <td><%= order.item.name %></td>
-                                <td><%= order.item.owner %></td>
-                                <td><%= order.date.toLocaleDateString('en-US') %></td>
-                                <td>$ <% if(isNaN(new Date(order.dateRet))) { %>
+                <div class="order-container">
+                    <!--Create each order tile-->
+                    <% orders.forEach(order => { %>
+                        <!--Order header (name, status)-->
+                        <div class="order-header">
+                            <h3 class="order-title"><%= order.item.name %></h3>
+                            <div class="order-status">
+                                <p><%= order.item.status %></p>
+                            </div>    
+                        </div>
+                        
+                        <image class="item-img" src=<%= order.item.image %> >
+
+                        <!--Order details (owner, date ordered, total cost) -->
+                        <div class="order-detail-header">
+                            <p>Owner</p>
+                            <p>Date Ordered</p>
+                            <p>Total Cost</p>
+                        </div>
+                        <div class="order-details">
+                            <p><%= order.item.owner %></p>
+                            <p><%= order.date.toDateString() %></p>
+                            <p>$ <% if(isNaN(new Date(order.dateRet))) { %>
                                     <%= (Math.floor((order.dateRet - order.date) / (1000 * 60 * 60 * 24)))*order.item.dailyRate %>
                                  <% } else { %>
                                     <%= (Math.floor((new Date() - order.date) / (1000 * 60 * 60 * 24)))*order.item.dailyRate %>
                                 <% } %>
-                                </td>
-                                <td><%= order.item.status %></td>
-                            </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
+                            </p>
+                        </div>
+                    <% }); %>
+
+                </div>
             </div>
         </div>
     </div>

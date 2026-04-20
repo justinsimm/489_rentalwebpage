@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="/stylesheets/browse.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="background">
+        <div class="border">
+            <main class="container">
+                <section class="browse-results">
+                    <h1>Your Cart</h1>
+                    <% const items = Array.isArray(cartItems) ? cartItems : []; %>
+                    <% const formatRate = function(value) {
+                        if (typeof value === 'number') { return '$' + value + '/day'; }
+                        if (typeof value === 'string' && value.trim().length > 0) { return '$' + value + '/day'; }
+                        return 'Price on request';
+                    }; %>
+                    <% if (items.length === 0) { %>
+                        <div class="empty-state">
+                            <p>Your cart is empty.</p>
+                        </div>
+                    <% } else { %>
+                        <div class="listing-grid">
+                            <% items.forEach(function(item) { %>
+                                <% const safeItem = item || {}; %>
+                                <article class="listing-card">
+                                    <div class="listing-meta">
+                                        <h3 class="listing-title"><%= safeItem.name || 'Untitled Item' %></h3>
+                                        <p class="listing-category"><%= safeItem.category || 'General' %></p>
+                                    </div>
+                                    <p class="listing-description"><%= safeItem.details || 'No description provided.' %></p>
+                                    <div class="listing-footer">
+                                        <span class="listing-price"><%= formatRate(safeItem.dailyRate) %></span>
+                                        <a class="btn" href="/item/<%= safeItem._id %>">View Details</a>
+                                    </div>
+                                </article>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

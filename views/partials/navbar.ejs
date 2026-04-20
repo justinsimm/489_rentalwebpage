@@ -14,9 +14,8 @@
                     <% } else if (user.role === "user") { %>
                         <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
                         <li><a href="/browse" class="<%= path === '/browse' ? 'active' : '' %>">Browse</a></li>
-                        <li><a href="/rentOutForm" class="<%= path === '/rentOutForm' ? 'active' : '' %>">List Item</a></li>
+                        <li><a href="/cart" class="<% path == '/cart' ? 'active' : '' %>">Cart</a></li>
                         <li><a href="/user_inbox" class="<%= path === '/user_inbox' ? 'active' : '' %>">Inbox</a></li>
-                        <li><a href="/my_listings" class="<%= path === '/my_listings' ? 'active' : '' %>">My Listings</a></li>
                         <li><a href="/profile" class="<%= path === '/profile' ? 'active' : '' %>">Profile</a></li>
                         <li><a href="/logout" class="<%= path === '/logout' ? 'active' : '' %>">Logout</a></li>
 
