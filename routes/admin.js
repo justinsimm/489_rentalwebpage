@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Item = require('../models/Item');
 const Order = require('../models/Order');
 const Report = require('../models/Report');
+const { isAdmin } = require('../middleware/auth.js');
 const { isAuthenticated } = require('../middleware/auth.js');
 
 function requireAdmin(req, res, next) {
@@ -13,10 +14,32 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-/* GET admin home page. */
-router.get('/admin_home', isAuthenticated, requireAdmin, function(req, res, next) {
-  res.render('admin_home', { title: 'Express' });
+/* GET admin home page */
+router.get('/admin_home', isAdmin, async function(req, res, next) {
+    // Total users, open reports, and items for extra stat cards
+    const openReports = await Report.countDocuments({ status: 'Open' });
+    const totalUsers = await User.countDocuments({});
+    const totalListings = await Item.countDocuments({});
+
+    // Get 5 most recent open reports for the preview table
+    const recentReports = await Report.find({ status: 'Open' })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate('item');
+
+    const stats = {
+      openReports,
+      totalUsers,
+      totalListings
+    };
+
+    res.render('admin_home', { 
+        title: 'Admin Dashboard',
+        stats: stats,
+        recentReports: recentReports
+    });
 });
+
 
 /* GET admin inbox page. */
 router.get('/inbox', isAuthenticated, requireAdmin, function(req, res, next) {

@@ -17,7 +17,6 @@
                         <li><a href="/cart" class="<% path == '/cart' ? 'active' : '' %>">Cart</a></li>
                         <li><a href="/user_inbox" class="<%= path === '/user_inbox' ? 'active' : '' %>">Inbox</a></li>
                         <li><a href="/profile" class="<%= path === '/profile' ? 'active' : '' %>">Profile</a></li>
-                        <li><a href="/logout" class="<%= path === '/logout' ? 'active' : '' %>">Logout</a></li>
 
                     <!-- Admin navbar -->
                     <% } else if (user.role === "admin") { %>
