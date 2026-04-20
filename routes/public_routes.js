@@ -139,12 +139,12 @@ router.post('/rentApproval/:id', isAuthenticated, async function(req, res, next)
 
     //Updated item to reserved status if approved
     if (req.body.decision === "approve") {
-      await Item.findByIdAndUpdate(message.item._id, { $set: { status: "Reserved" } });
+      await Item.findByIdAndUpdate(message.item._id, { status: "Reserved" });
 
       //Add item to the user's cart
-      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item._id } });
+      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item_id } } );
 
-      //Remove th
+      //Remove the message from the user_inbox
     } else {
       //Send harcoded rejection letter to requester
       const declineMessage = new Message({
