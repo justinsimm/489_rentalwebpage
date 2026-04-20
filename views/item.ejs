@@ -12,8 +12,6 @@
     <div class="background">
         <div class="border">
            <article class="item-card">
-
-                <% const safeItem = item || {}; %>
                 <div class="item-meta">
                     <h1 class="item-title"><%= safeItem.name ? safeItem.name.charAt(0).toUpperCase() + safeItem.name.slice(1) : 'Item Details' %></h1>
                     <% const status = safeItem.status || 'Unavailable'; %>
@@ -56,11 +54,11 @@
 
                 <div class="item-footer">
                     <% if (safeItem.status === 'Available') { %>
-                        <a href="/checkout?itemId=<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Checkout</a>
+                        <a href="/rentItem/<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Rent Item</a>
                     <% } else { %>
                         <button class="btn btnPrimary" disabled>Currently Unavailable</button>
                     <% } %>
-                    <a href="/report" class="btn btnSecondary">Report Listing</a>
+                    <a href="/report?itemId=<%= safeItem._id || safeItem.id %>" class="btn btnSecondary">Report Listing</a>
                 </div>
 
             </article>
