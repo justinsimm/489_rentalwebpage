@@ -8,6 +8,7 @@
 </head>
 <body>
     <%- include('partials/navbar') %>
+    <% const safeItem = item || {}; %>
     <div class="background">
         <div class="border">
            <article class="item-card">
@@ -45,6 +46,7 @@
                     </div>
                     <% } %>
                 </div>
+
                 <% if (safeItem.details) { %>
                 <div class="item-notes">
                     <p class="notes-label">Notes</p>

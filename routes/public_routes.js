@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Item = require('../models/Item.js');
 const Order = require('../models/Order.js');
+const Report = require('../models/Report.js');
 const Message = require('../models/Message.js');
 const User = require('../models/User.js');
 const { isAuthenticated } = require('../middleware/auth.js');
@@ -29,8 +30,41 @@ router.get('/item/:id', async function(req, res, next) {
 });
 
 /* GET checkout page. */
-router.get('/checkout', function(req, res, next) {
-  res.render('checkout', { title: 'Express' });
+router.get('/checkout', async function(req, res, next) {
+  try {
+    const itemId = req.query.itemId;
+    const item = itemId ? await Item.findById(itemId) : null;
+    res.render('checkout', { item, title: 'Express' });
+  } catch (err) {
+    console.log('Could not load checkout item:', err);
+    next(err);
+  }
+});
+
+/* POST checkout page. */
+router.post('/checkout', isAuthenticated, async function(req, res, next) {
+  try {
+    const itemId = req.body.itemId || req.query.itemId;
+    if (!itemId || !req.user) {
+      return res.redirect('/browse');
+    }
+
+    const item = await Item.findById(itemId);
+    if (!item) {
+      return res.redirect('/browse');
+    }
+
+    const order = new Order({
+      item: item._id,
+      renter: req.user._id
+    });
+
+    await order.save();
+    res.redirect('/order_history');
+  } catch (err) {
+    console.log('Could not create order:', err);
+    next(err);
+  }
 });
 
 /* POST add item to cart. */
@@ -71,9 +105,26 @@ router.get('/cart', isAuthenticated, async function(req, res, next) {
   }
 });
 
+/* GET reports_dashboard page. */
+router.get('/reports_dashboard', function(req, res, next) {
+  res.render('reports_dashboard', { title: 'Express' });
+});
+
+/* GET user_list page. */
+router.get('/user_list', function(req, res, next) {
+  res.render('user_list', { title: 'Express' });
+});
+
 /* GET my listings page. */
-router.get('/my_listings', function(req, res, next) {
-  res.render('my_listings', { title: 'Express' });
+router.get('/my_listings', isAuthenticated, async function(req, res, next) {
+  try {
+    // Find all items where the owner matches the logged-in user's username
+    const items = await Item.find({ owner: req.user.username });
+    res.render('my_listings', { items, title: 'My Listings' });
+  } catch (err) {
+    console.log("My Listings page could not be retrieved", err);
+    next(err);
+  }
 });
 
 /* GET order history page. */
@@ -158,8 +209,66 @@ router.post('/rentOutForm', isAuthenticated, async function(req, res, next) {
 });
 
 /* GET report page. */
-router.get('/report', function(req, res, next) {
-  res.render('report_form', { title: 'Express' });
+router.get('/report', isAuthenticated, function(req, res, next) {
+  // Pass the itemId from the query string (e.g. /report?itemId=abc123)
+  const itemId = req.query.itemId || '';
+  res.render('report_form', { 
+    title: 'Report Form', 
+    itemId: itemId, 
+    success: false,
+    errors: [],
+    formData: { reportedUser: '', reason: '', details: '' }
+  });
+});
+
+/* POST report form submission. */
+router.post('/report', isAuthenticated, async function(req, res, next) {
+  try {
+    const { reportedUser, reason, details, itemId } = req.body;
+    let errors = [];
+
+    if (!reportedUser || reportedUser.trim() === '') {
+      errors.push('Reported User is required.');
+    }
+
+    if (!reason || reason.trim() === '') {
+      errors.push('Reason is required.');
+    }
+
+    if (errors.length > 0) {
+      return res.render('report_form', {
+        title: 'Report Form',
+        itemId: itemId,
+        success: false,
+        errors: errors,
+        formData: req.body
+      });
+    }
+
+    // Create a new Report using the form data
+    const newReport = new Report({
+      reportedUser: reportedUser,
+      item: itemId || null,
+      reason: reason,
+      details: details,
+      reporter: req.user.username
+    });
+
+    // Save the report to the database
+    await newReport.save();
+
+    // Render the page again with success = true to show the thank-you message
+    res.render('report_form', { 
+      title: 'Report Form', 
+      itemId: '', 
+      success: true,
+      errors: [],
+      formData: { reportedUser: '', reason: '', details: '' }
+    });
+  } catch (err) {
+    console.log('Could not save the report:', err);
+    next(err);
+  }
 });
 
 /* GET user inbox page. */
@@ -187,7 +296,7 @@ router.post('/rentApproval/:id', isAuthenticated, async function(req, res, next)
       await Item.findByIdAndUpdate(message.item._id, { status: "Reserved" });
 
       //Add item to the user's cart
-      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item_id } } );
+      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item._id } } );
 
       //Remove the message from the user_inbox
     } else {

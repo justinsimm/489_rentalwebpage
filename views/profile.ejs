@@ -40,10 +40,25 @@
                     <br>
 
                     <div class="mainButtons">
-                        <a href="/user_inbox" class="btn btnPrimary">Inbox / Messages</a>
-                        <a href="/my_listings" class="btn btnPrimary">My Listings</a>
-                        <a href="/order_history" class="btn btnPrimary">Order History</a>
-                        <a href="/logout" class="btn btnSecondary">Log Out</a>
+                        <% if (user.role === 'admin') { %>
+                            <!-- Admin buttons -->
+                            <a href="/admin_home" class="btn btnPrimary">Admin Dashboard</a>
+                            <a href="/reports_dashboard" class="btn btnPrimary">Reports Dashboard</a>
+                            <a href="/logout" class="btn btnSecondary">Log Out</a>
+
+                        <% } else if (user.role === 'moderator') { %>
+                            <!-- Moderator buttons -->
+                            <a href="/reports_dashboard" class="btn btnPrimary">Reports Dashboard</a>
+                            <a href="/logout" class="btn btnSecondary">Log Out</a>
+
+                        <% } else { %>
+                            <!-- Regular user buttons -->
+                            <a href="/user_inbox" class="btn btnPrimary">Inbox / Messages</a>
+                            <a href="/my_listings" class="btn btnPrimary">My Listings</a>
+                            <a href="/earnings" class="btn btnPrimary">Earnings</a>
+                            <a href="/order_history" class="btn btnPrimary">Order History</a>
+                            <a href="/logout" class="btn btnSecondary">Log Out</a>
+                        <% } %>
                     </div>
                 </section>
             </main>

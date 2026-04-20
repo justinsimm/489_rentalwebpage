@@ -1,51 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
     <link rel="stylesheet" href="/stylesheets/admin_home.css">
 </head>
+
 <body>
     <%- include('partials/navbar') %>
     <div class="background">
         <div class="border">
             <div class="container">
                 <h1>Admin Dashboard</h1>
-                <p>System overview and moderation insights.</p>
-                <div class="report-item">
-                    <div class="report-text">
-                        <h3>Daily Rentals:</h3>
-                        <p>Today: 14 rentals</p>
-                        <p>Peak Hour: 4pm - 6pm</p>
+
+                <div class="statsGrid">
+                    <div class="statCard cardBlue">
+                        <span class="statNumber"><%= stats.openReports %></span>
+                        <span class="statLabel">Open Reports</span>
                     </div>
-                    <div class="report-figure">
-                        <p>Chart Placeholder</p>
+
+                    <div class="statCard cardTeal">
+                        <span class="statNumber"><%= stats.totalUsers %></span>
+                        <span class="statLabel">Total Users</span>
                     </div>
-                </div>
-                <div class="report-item">
-                    <div class="report-text">
-                        <h3>Weekly Rentals:</h3>
-                        <p>Total: 76 rentals</p>
-                        <p>Most Popular: Party & Events</p>
-                    </div>
-                    <div class="report-figure">
-                        <p>Chart Placeholder</p>
+
+                    <div class="statCard cardOrange">
+                        <span class="statNumber"><%= stats.totalListings %></span>
+                        <span class="statLabel">Total Listings</span>
                     </div>
                 </div>
-                <div class="report-item">
-                    <div class="report-text">
-                        <h3>Weekly Incidents:</h3>
-                        <p>Open Reports: 5</p>
-                        <p>Resolved This Week: 12</p>
-                    </div>
-                    <div class="report-figure">
-                        <p>Chart Placeholder</p>
-                    </div>
+
+                <div class="recentSection">
+                    <h3>Recent Reports</h3>
+                    <% if (recentReports.length === 0) { %>
+                        <p class="emptyText">No reports yet.</p>
+                    <% } else { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Reported User</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% recentReports.forEach(function(report) { %>
+                                    <tr>
+                                        <td><%= report.reportedUser %></td>
+                                        <td><%= report.reason %></td>
+                                        <td><%= report.status %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    <% } %>
                 </div>
+
                 <div class="mainButtons">
-                    <a href="/reports_dashboard" class="btn btnPrimary">View Reports</a>
-                    <a href="/user_management" class="btn btnSecondary">Manage Users</a>
+                    <a href="/reports_dashboard" class="btn btnPrimary">View All Reports</a>
+                    <a href="/user_list" class="btn btnSecondary">Manage Users</a>
                 </div>
             </div>
         </div>
@@ -53,4 +68,5 @@
 
     <script src="../js/app.js"></script>
 </body>
+
 </html>
