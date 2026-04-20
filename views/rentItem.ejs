@@ -14,16 +14,39 @@
                 <h1>Request to Rent</h1>
                 <p class="form-subtitle">Send a message to the owner to request this item.</p>
                 <form class="rentForm" action="/rentItem/<%= item._id %>" method="POST">
-                    <div class="formGroup">
-                        <p><%= item.name %></p>
-                        <p>Owner: <%= item.owner %></p>
-                        <image src="<%= item.image %>" %></image>
-                        <p>Pickup: <%= item.location %></p>
-                        <p>Daily Rate: $<%= item.dailyRate %></p>
-                        <p><%= item.details %></p>
+                    <div class="item-info">
+                        <% if (item.image) { %>
+                        <div class="item-image">
+                            <img src="<%= item.image %>" alt="<%= item.name %>">
+                        </div>
+                        <% } %>
+                        <div class="item-info-grid">
+                            <div class="info-row">
+                                <span class="info-label">Item</span>
+                                <span class="info-value"><%= item.name %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Owner</span>
+                                <span class="info-value"><%= item.owner %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Pickup Location</span>
+                                <span class="info-value"><%= item.location %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Daily Rate</span>
+                                <span class="info-value info-price">$<%= item.dailyRate %>/day</span>
+                            </div>
+                            <% if (item.details) { %>
+                            <div class="info-row">
+                                <span class="info-label">Notes</span>
+                                <span class="info-value"><%= item.details %></span>
+                            </div>
+                            <% } %>
+                        </div>
                     </div>
 
-                    <div class="formGroup">
+                    <div class="message-box">
                         <label>Message to Owner</label>
                         <!--Prepare date object for example message-->
                         <% const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); %>
@@ -31,8 +54,10 @@
                             class="form-input">I am interested in renting your <%= item.name %>. Is it available <%= tomorrow.toLocaleDateString('en-US', { weekday: 'long', month: '2-digit', day: '2-digit' }) %>?</textarea>
                     </div>
 
-                    <button type="submit" class="btn">Send Request</button>
-                    <a href="/item" class="CancelBtn">Cancel</a>
+                    <div class="footer">
+                        <button type="submit" class="btn">Send Request</button>
+                        <a href="/item" class="CancelBtn">Cancel</a>
+                    </div>
                 </form>
             </div>
         </div>
