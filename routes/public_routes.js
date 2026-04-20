@@ -29,8 +29,41 @@ router.get('/item/:id', async function(req, res, next) {
 });
 
 /* GET checkout page. */
-router.get('/checkout', function(req, res, next) {
-  res.render('checkout', { title: 'Express' });
+router.get('/checkout', async function(req, res, next) {
+  try {
+    const itemId = req.query.itemId;
+    const item = itemId ? await Item.findById(itemId) : null;
+    res.render('checkout', { item, title: 'Express' });
+  } catch (err) {
+    console.log('Could not load checkout item:', err);
+    next(err);
+  }
+});
+
+/* POST checkout page. */
+router.post('/checkout', isAuthenticated, async function(req, res, next) {
+  try {
+    const itemId = req.body.itemId || req.query.itemId;
+    if (!itemId || !req.user) {
+      return res.redirect('/browse');
+    }
+
+    const item = await Item.findById(itemId);
+    if (!item) {
+      return res.redirect('/browse');
+    }
+
+    const order = new Order({
+      item: item._id,
+      renter: req.user._id
+    });
+
+    await order.save();
+    res.redirect('/order_history');
+  } catch (err) {
+    console.log('Could not create order:', err);
+    next(err);
+  }
 });
 
 /* POST add item to cart. */

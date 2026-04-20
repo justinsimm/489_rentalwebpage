@@ -23,8 +23,11 @@
                     return isNaN(date.getTime()) ? String(value) : date.toLocaleDateString();
                 }; %>
 
-                <!-- Demo Note: Form submits to the existing checkout route (GET). -->
-                <form class="checkout_form" method="get" action="/checkout">
+                <!-- Demo Note: Form submits to the existing checkout route (POST). -->
+                <form class="checkout_form" method="post" action="/checkout">
+                    <% if (itemData && itemData._id) { %>
+                        <input type="hidden" name="itemId" value="<%= itemData._id %>">
+                    <% } %>
                     <section class="checkout-section">
                         <!-- Demo Note: Summary section renders item/order data with fallbacks. -->
                         <h2>Order Summary</h2>
@@ -32,7 +35,7 @@
                             <p><strong>Item:</strong> <%= itemData.name || 'Item not available' %></p>
                             <p><strong>Category:</strong> <%= itemData.category || 'General' %></p>
                             <p><strong>Rental Dates:</strong> <%= formatDate(orderData.startDate) %> - <%= formatDate(orderData.endDate) %></p>
-                            <p><strong>Daily Rate:</strong> <%= formatMoney(itemData.price) %></p>
+                            <p><strong>Daily Rate:</strong> <%= formatMoney(itemData.dailyRate) %></p>
                         </div>
                     </section>
 
