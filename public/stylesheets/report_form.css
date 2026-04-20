@@ -166,3 +166,38 @@ textarea {
     margin-bottom: 10px;
 }
 
+.textInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #E5E7EB;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.successMessage {
+    padding: 30px;
+    text-align: center;
+}
+
+.successMessage h3 {
+    color: #059669;
+    margin-bottom: 10px;
+}
+
+.successMessage p {
+    color: #6B7280;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}

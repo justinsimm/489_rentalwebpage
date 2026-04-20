@@ -12,22 +12,48 @@
         <div class="border">
             <div class="container">
                 <h1>Report Form</h1>
-                <label for="reported-user">User Reported:</label>
-                <input id="reported-user" type="text" placeholder="username or listing owner">
-                <label for="report_reason">Rule Broken:</label>
-                <select id="report_reason" name="report_reason">
-                    <option value="inappropriate_item">Inappropriate Item</option>
-                    <option value="inappropriate_username">Inappropriate Username</option>
-                    <option value="user_scam">Scamming</option>
-                    <option value="unrelated_details">Unrelated Details</option>
-                </select>
 
-                <label for="further_details">Details:</label>
-                <textarea id="further_details" name="further_details" placeholder="Further Details (optional)"></textarea>
-                <div class="mainButtons">
-                    <a href="/browse" class="btn btnPrimary">Submit Report</a>
-                    <a href="/item" class="btn btnSecondary">Back to Item</a>
-                </div>
+                <% if (success) { %>
+                    <div class="successMessage">
+                        <h3>Thank you for your report!</h3>
+                        <p>Your report has been sent to our admin and moderators for review.</p>
+                        <p>Redirecting you back to browsing...</p>
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location = '/browse';
+                        }, 2000);
+                    </script>
+                <% } else { %>
+                    <% if (errors.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <p><%= errors[0] %></p>
+                        </div>
+                    <% } %>
+
+                    <form method="POST" action="/report" novalidate>
+                        <input type="hidden" name="itemId" value="<%= itemId %>">
+
+                        <label for="reported-user">User Reported:</label>
+                        <input id="reported-user" name="reportedUser" type="text" class="textInput" placeholder="username or listing owner" value="<%= formData.reportedUser %>">
+
+                        <label for="report_reason">Rule Broken:</label>
+                        <select id="report_reason" name="reason">
+                            <option value="inappropriate_item" <%= formData.reason === 'inappropriate_item' ? 'selected' : '' %>>Inappropriate Item</option>
+                            <option value="inappropriate_username" <%= formData.reason === 'inappropriate_username' ? 'selected' : '' %>>Inappropriate Username</option>
+                            <option value="user_scam" <%= formData.reason === 'user_scam' ? 'selected' : '' %>>Scamming</option>
+                            <option value="unrelated_details" <%= formData.reason === 'unrelated_details' ? 'selected' : '' %>>Unrelated Details</option>
+                        </select>
+
+                        <label for="further_details">Details:</label>
+                        <textarea id="further_details" name="details" placeholder="Further Details (optional)"><%= formData.details %></textarea>
+
+                        <div class="mainButtons">
+                            <button type="submit" class="btn btnPrimary">Submit Report</button>
+                            <a href="/browse" class="btn btnSecondary">Cancel</a>
+                        </div>
+                    </form>
+                <% } %>
             </div>
         </div>
     </div>

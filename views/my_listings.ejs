@@ -15,47 +15,37 @@
                     <h1>My Listings</h1>
                     <p>Manage items you have listed for rent.</p>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Daily Rate</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Leaf Blower</td>
-                                <td>Tools & Equipment</td>
-                                <td>Available</td>
-                                <td>$12</td>
-                                <td>
-                                    <button class="btn btnSecondary">Edit</button>
-                                    <button class="btn btnSecondary">Pause</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Party Tent</td>
-                                <td>Party & Events</td>
-                                <td>Reserved</td>
-                                <td>$60</td>
-                                <td>
-                                    <button class="btn btnSecondary">View Reservation</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Snowboard</td>
-                                <td>Sports & Outdoors</td>
-                                <td>Inactive</td>
-                                <td>$15</td>
-                                <td>
-                                    <button class="btn btnSecondary">Reactivate</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <% if (items.length === 0) { %>
+                        <div class="emptyState">
+                            <p>You haven't listed any items yet.</p>
+                            <p>Click the button below to list your first item!</p>
+                        </div>
+                    <% } else { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Daily Rate</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% items.forEach(function(item) { %>
+                                    <tr>
+                                        <td><%= item.name %></td>
+                                        <td><%= item.category %></td>
+                                        <td><%= item.status %></td>
+                                        <td>$<%= item.dailyRate %></td>
+                                        <td>
+                                            <a href="/item/<%= item._id %>" class="btn btnSecondary">View</a>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    <% } %>
 
                     <div class="mainButtons">
                         <a href="/rentOutForm" class="btn btnPrimary">List a New Item</a>
