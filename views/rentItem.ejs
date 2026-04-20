@@ -27,7 +27,7 @@
                         <label>Message to Owner</label>
                         <!--Prepare date object for example message-->
                         <% const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); %>
-                        <textarea
+                        <textarea name="message"
                             class="form-input">I am interested in renting your <%= item.name %>. Is it available <%= tomorrow.toLocaleDateString('en-US', { weekday: 'long', month: '2-digit', day: '2-digit' }) %>?</textarea>
                     </div>
 
