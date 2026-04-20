@@ -3,6 +3,7 @@ var router = express.Router();
 const Item = require('../models/Item.js');
 const Order = require('../models/Order.js');
 const Message = require('../models/Message.js');
+const User = require('../models/User.js');
 const { isAuthenticated } = require('../middleware/auth.js');
 
 
@@ -54,12 +55,35 @@ router.get('/rentItem/:id', async function(req, res, next) {
   }
 });
 
+/* Post rent item page. */
+router.post('/rentItem/:id', isAuthenticated, async function(req, res, next) {
+  try {
+    const item = await Item.findById(req.params.id);
+    const owner = await User.findOne({ username: item.owner });
+
+    const message = new Message({
+        sender: req.user._id,
+        recipient: owner._id,
+        type: "order",
+        message: req.body.message,
+        item: item._id
+    });
+
+    await message.save();
+    res.redirect('/user_inbox');
+  } catch(err) {
+    console.log("Could not rent item: ", err);
+    next();
+  }
+});
+
 /* GET rent Out page. */
 router.get('/rentOutForm', function(req, res, next) {
   res.render('rentOutForm', { title: 'Express' });
 });
 
 /* POST rent Out page. */
+/* Item creation */
 router.post('/rentOutForm', isAuthenticated, async function(req, res, next) {
   try {
     //Parse Form Data for input
@@ -100,8 +124,43 @@ router.get('/user_inbox', isAuthenticated, async function(req, res, next) {
 
     res.render('user_inbox', { messages });
   } catch(err) {
-    console.log('Could not retreive user inbox page', err);
+    console.log('Could not retreive user inbox page: ', err);
     next();
+  }
+});
+
+/* POST method for rentApproval
+- approve/decline rent requests
+- reserve items that are approved */
+router.post('/rentApproval/:id', isAuthenticated, async function(req, res, next) {
+  try {
+    //Retreive message so the item can be updated
+    const message = await Message.findById(req.params.id).populate('item');
+
+    //Updated item to reserved status if approved
+    if (req.body.decision === "approve") {
+      await Item.findByIdAndUpdate(message.item._id, { $set: { status: "Reserved" } });
+
+      //Add item to the user's cart
+      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item._id } });
+
+      //Remove th
+    } else {
+      //Send harcoded rejection letter to requester
+      const declineMessage = new Message({
+        sender: req.user._id,
+        recipient: message.sender,
+        type: "inform",
+        message: `Your request to rent ${message.item.name} has been declined.`
+      });
+      await declineMessage.save();
+    }
+
+    await Message.findByIdAndDelete(req.params.id);
+    res.redirect('/user_inbox');
+  } catch(err) {
+    console.log('Could not process rent approval: ', err);
+    next(err);
   }
 });
 

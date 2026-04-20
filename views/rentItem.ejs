@@ -13,16 +13,22 @@
             <div class="border">
                 <h1>Request to Rent</h1>
                 <p class="form-subtitle">Send a message to the owner to request this item.</p>
-                <form class="rentForm">
+                <form class="rentForm" action="/rentItem/<%= item._id %>" method="POST">
                     <div class="formGroup">
-                        <label>Item Requesting</label>
-                        <input type="text" class="form-input" value="Bouncy House">
+                        <p><%= item.name %></p>
+                        <p>Owner: <%= item.owner %></p>
+                        <image src="<%= item.image %>" %></image>
+                        <p>Pickup: <%= item.location %></p>
+                        <p>Daily Rate: $<%= item.dailyRate %></p>
+                        <p><%= item.details %></p>
                     </div>
 
                     <div class="formGroup">
                         <label>Message to Owner</label>
+                        <!--Prepare date object for example message-->
+                        <% const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); %>
                         <textarea
-                            class="form-input">I am interested in renting your Bouncy House. Is it available Saturday?</textarea>
+                            class="form-input">I am interested in renting your <%= item.name %>. Is it available <%= tomorrow.toLocaleDateString('en-US', { weekday: 'long', month: '2-digit', day: '2-digit' }) %>?</textarea>
                     </div>
 
                     <button type="submit" class="btn">Send Request</button>

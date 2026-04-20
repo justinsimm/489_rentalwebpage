@@ -9,7 +9,9 @@ const messageSchema = new mongoose.Schema({
     enum: ["inform", "report", "order"], 
     required: true
   },
-  message: { type: String, required:true}
+  message: { type: String, required:true},
+  //Item if order
+  item: { type: mongoose.Schema.Types.ObjectId, ref: 'Item' }
 });
 
 module.exports = mongoose.model('Message', messageSchema);

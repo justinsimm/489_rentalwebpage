@@ -19,7 +19,8 @@
                 <div class="inbox_container">
                     <div class="messages-list">
                         <% messages.forEach(message => { %>
-                            <p 
+                            <p
+                                data-id="<%= message._id %>"
                                 data-sender="<%= message.sender.username %>"
                                 data-type="<%= message.type %>"
                                 data-message="<%= message.message %>"
