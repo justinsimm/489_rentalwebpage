@@ -99,7 +99,8 @@ router.get('/rentItem/:id', async function(req, res, next) {
   }
 });
 
-/* Post rent item page. */
+/* Post rent item page. 
+   send message to the owner for approval */
 router.post('/rentItem/:id', isAuthenticated, async function(req, res, next) {
   try {
     const item = await Item.findById(req.params.id);

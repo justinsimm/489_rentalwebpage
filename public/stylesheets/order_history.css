@@ -17,7 +17,7 @@ body {
     padding: 10px;
     margin-left: auto;
     margin-right: auto;
-    max-width: 1200px;
+    max-width: 1000px;
     text-align: center;
 }
 
@@ -187,4 +187,53 @@ th, td {
 th {
     background-color: #f9f9f9;
     font-weight: bold;
+}
+
+.order-container {
+    border-radius: 8px;
+    border: 1px solid #E5E7EB
+}
+
+.order-header {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-title {
+    align-self: center;
+    margin: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.order-status {
+    border-radius: 8px;
+    border: 1px solid #c9cbcf; 
+    
+    margin: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.order-detail-header {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.order-detail-header p,
+.order-details p {
+    flex: 1;
+    margin: 0;
+}
+
+.order-details {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
 }
