@@ -30,7 +30,8 @@ router.get('/admin_home', isAdmin, async function(req, res, next) {
         stats: stats,
         recentReports: recentReports
     });
-const User = require('../models/User');
+});
+
 const { isAuthenticated } = require('../middleware/auth.js');
 
 function requireAdmin(req, res, next) {
