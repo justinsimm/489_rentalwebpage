@@ -34,12 +34,7 @@
                         <div class="order-details">
                             <p><%= order.item.owner %></p>
                             <p><%= order.date.toDateString() %></p>
-                            <p>$ <% if(isNaN(new Date(order.dateRet))) { %>
-                                    <%= (Math.floor((order.dateRet - order.date) / (1000 * 60 * 60 * 24)))*order.item.dailyRate %>
-                                 <% } else { %>
-                                    <%= (Math.floor((new Date() - order.date) / (1000 * 60 * 60 * 24)))*order.item.dailyRate %>
-                                <% } %>
-                            </p>
+                            <p>$ <%= (order.total !== undefined && order.total !== null) ? order.total : 0 %></p>
                         </div>
                     <% }); %>
 

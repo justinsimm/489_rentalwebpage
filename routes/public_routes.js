@@ -7,7 +7,6 @@ const Message = require('../models/Message.js');
 const User = require('../models/User.js');
 const { isAuthenticated } = require('../middleware/auth.js');
 
-
 /* GET browse page. */
 router.get('/browse', async function(req, res, next) {
   try {
@@ -34,7 +33,15 @@ router.get('/checkout', async function(req, res, next) {
   try {
     const itemId = req.query.itemId;
     const item = itemId ? await Item.findById(itemId) : null;
-    res.render('checkout', { item, title: 'Express' });
+    const dailyRate = item && item.dailyRate !== undefined && item.dailyRate !== null ? Number(item.dailyRate) : NaN;
+    const subtotal = Number.isFinite(dailyRate) ? dailyRate : 0;
+    const priceSummary = {
+      subtotal: subtotal,
+      fees: 0,
+      tax: 0,
+      total: subtotal
+    };
+    res.render('checkout', { item, priceSummary, title: 'Express' });
   } catch (err) {
     console.log('Could not load checkout item:', err);
     next(err);
@@ -54,9 +61,13 @@ router.post('/checkout', isAuthenticated, async function(req, res, next) {
       return res.redirect('/browse');
     }
 
+    const dailyRate = (item.dailyRate !== undefined && item.dailyRate !== null) ? Number(item.dailyRate) : 0;
+    const total = Number.isFinite(dailyRate) ? dailyRate : 0;
+
     const order = new Order({
       item: item._id,
-      renter: req.user._id
+      renter: req.user._id,
+      total: total
     });
 
     await order.save();
@@ -118,11 +129,10 @@ router.get('/user_list', function(req, res, next) {
 /* GET my listings page. */
 router.get('/my_listings', isAuthenticated, async function(req, res, next) {
   try {
-    // Find all items where the owner matches the logged-in user's username
     const items = await Item.find({ owner: req.user.username });
     res.render('my_listings', { items, title: 'My Listings' });
   } catch (err) {
-    console.log("My Listings page could not be retrieved", err);
+    console.log('My Listings page could not be retrieved', err);
     next(err);
   }
 });
@@ -130,12 +140,11 @@ router.get('/my_listings', isAuthenticated, async function(req, res, next) {
 /* GET order history page. */
 router.get('/order_history', isAuthenticated, async function(req, res, next) {
   try {
-    //Query for order history & Populate the item Ref
     const orders = await Order.find({ renter: req.user._id }).populate('item');
-    res.render('order_history', {orders,  title: 'Express' });
-  } catch(err) {
-    console.log("Order History Page could not be retreived", err);
-    next (err);
+    res.render('order_history', { orders, title: 'Express' });
+  } catch (err) {
+    console.log('Order History Page could not be retreived', err);
+    next(err);
   }
 });
 
@@ -143,33 +152,32 @@ router.get('/order_history', isAuthenticated, async function(req, res, next) {
 router.get('/rentItem/:id', async function(req, res, next) {
   try {
     const item = await Item.findById(req.params.id);
-    res.render('rentItem', {item, title: 'Express' });
-  } catch(err) {
-    console.log("Could not get item rent page: ", err);
-    next();
+    res.render('rentItem', { item, title: 'Express' });
+  } catch (err) {
+    console.log('Could not get item rent page: ', err);
+    next(err);
   }
 });
 
-/* Post rent item page. 
-   send message to the owner for approval */
+/* POST rent item page. */
 router.post('/rentItem/:id', isAuthenticated, async function(req, res, next) {
   try {
     const item = await Item.findById(req.params.id);
     const owner = await User.findOne({ username: item.owner });
 
     const message = new Message({
-        sender: req.user._id,
-        recipient: owner._id,
-        type: "order",
-        message: req.body.message,
-        item: item._id
+      sender: req.user._id,
+      recipient: owner._id,
+      type: 'order',
+      message: req.body.message,
+      item: item._id
     });
 
     await message.save();
     res.redirect('/user_inbox');
-  } catch(err) {
-    console.log("Could not rent item: ", err);
-    next();
+  } catch (err) {
+    console.log('Could not rent item: ', err);
+    next(err);
   }
 });
 
@@ -179,42 +187,36 @@ router.get('/rentOutForm', function(req, res, next) {
 });
 
 /* POST rent Out page. */
-/* Item creation */
 router.post('/rentOutForm', isAuthenticated, async function(req, res, next) {
   try {
-    //Parse Form Data for input
     const formData = req.body;
-    console.log(formData);
-    const { name = '', category='', location = '', description = '', dailyRate = '', image='' } = formData;
+    const { name = '', category = '', location = '', description = '', dailyRate = '', image = '' } = formData;
 
-    //Create the new item
     const newItem = new Item({
       name,
       owner: req.user.username,
       category,
       location,
       dailyRate,
-      status: "Available",
+      status: 'Available',
       image,
       details: description
     });
 
     await newItem.save();
-
     res.redirect('/browse');
-  } catch(err) {
+  } catch (err) {
     console.log('Could not save the item,', err);
-    next()
+    next(err);
   }
 });
 
 /* GET report page. */
 router.get('/report', isAuthenticated, function(req, res, next) {
-  // Pass the itemId from the query string (e.g. /report?itemId=abc123)
   const itemId = req.query.itemId || '';
-  res.render('report_form', { 
-    title: 'Report Form', 
-    itemId: itemId, 
+  res.render('report_form', {
+    title: 'Report Form',
+    itemId: itemId,
     success: false,
     errors: [],
     formData: { reportedUser: '', reason: '', details: '' }
@@ -224,7 +226,10 @@ router.get('/report', isAuthenticated, function(req, res, next) {
 /* POST report form submission. */
 router.post('/report', isAuthenticated, async function(req, res, next) {
   try {
-    const { reportedUser, reason, details, itemId } = req.body;
+    const reportedUser = req.body.reportedUser || '';
+    const reason = req.body.reason || req.body.report_reason || '';
+    const details = req.body.details || req.body.further_details || '';
+    const itemId = req.body.itemId || '';
     let errors = [];
 
     if (!reportedUser || reportedUser.trim() === '') {
@@ -241,26 +246,24 @@ router.post('/report', isAuthenticated, async function(req, res, next) {
         itemId: itemId,
         success: false,
         errors: errors,
-        formData: req.body
+        formData: { reportedUser: reportedUser, reason: reason, details: details }
       });
     }
 
-    // Create a new Report using the form data
     const newReport = new Report({
+      reporter: req.user._id,
+      reporterName: req.user.username || '',
       reportedUser: reportedUser,
       item: itemId || null,
       reason: reason,
-      details: details,
-      reporter: req.user.username
+      details: details
     });
 
-    // Save the report to the database
     await newReport.save();
 
-    // Render the page again with success = true to show the thank-you message
-    res.render('report_form', { 
-      title: 'Report Form', 
-      itemId: '', 
+    res.render('report_form', {
+      title: 'Report Form',
+      itemId: '',
       success: true,
       errors: [],
       formData: { reportedUser: '', reason: '', details: '' }
@@ -275,36 +278,26 @@ router.post('/report', isAuthenticated, async function(req, res, next) {
 router.get('/user_inbox', isAuthenticated, async function(req, res, next) {
   try {
     const messages = await Message.find({ recipient: req.user._id }).populate('sender', 'username');
-
     res.render('user_inbox', { messages });
-  } catch(err) {
+  } catch (err) {
     console.log('Could not retreive user inbox page: ', err);
-    next();
+    next(err);
   }
 });
 
-/* POST method for rentApproval
-- approve/decline rent requests
-- reserve items that are approved */
+/* POST method for rentApproval */
 router.post('/rentApproval/:id', isAuthenticated, async function(req, res, next) {
   try {
-    //Retreive message so the item can be updated
     const message = await Message.findById(req.params.id).populate('item');
 
-    //Updated item to reserved status if approved
-    if (req.body.decision === "approve") {
-      await Item.findByIdAndUpdate(message.item._id, { status: "Reserved" });
-
-      //Add item to the user's cart
-      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item._id } } );
-
-      //Remove the message from the user_inbox
+    if (req.body.decision === 'approve') {
+      await Item.findByIdAndUpdate(message.item._id, { status: 'Reserved' });
+      await User.findByIdAndUpdate(message.sender, { $push: { cart: message.item._id } });
     } else {
-      //Send harcoded rejection letter to requester
       const declineMessage = new Message({
         sender: req.user._id,
         recipient: message.sender,
-        type: "inform",
+        type: 'inform',
         message: `Your request to rent ${message.item.name} has been declined.`
       });
       await declineMessage.save();
@@ -312,7 +305,7 @@ router.post('/rentApproval/:id', isAuthenticated, async function(req, res, next)
 
     await Message.findByIdAndDelete(req.params.id);
     res.redirect('/user_inbox');
-  } catch(err) {
+  } catch (err) {
     console.log('Could not process rent approval: ', err);
     next(err);
   }

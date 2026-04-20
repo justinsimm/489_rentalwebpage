@@ -56,7 +56,7 @@
 
                 <div class="item-footer">
                     <% if (safeItem.status === 'Available') { %>
-                        <a href="/rentItem/<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Rent Item</a>
+                        <a href="/checkout?itemId=<%= safeItem._id || safeItem.id %>" class="btn btnPrimary">Checkout</a>
                     <% } else { %>
                         <button class="btn btnPrimary" disabled>Currently Unavailable</button>
                     <% } %>

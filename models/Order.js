@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema({
     renter: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     date: {type: Date, default: Date.now},
     createdAt: {type: Date, default: Date.now},
+    total: { type: Number, default: 0 },
     dateRet: {type: Date, default: ""}
 });
 

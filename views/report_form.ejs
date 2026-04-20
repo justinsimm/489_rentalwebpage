@@ -32,7 +32,7 @@
                     <% } %>
 
                     <form method="POST" action="/report" novalidate>
-                        <input type="hidden" name="itemId" value="<%= itemId %>">
+                        <input type="hidden" name="itemId" value="<%= itemId || '' %>">
 
                         <label for="reported-user">User Reported:</label>
                         <input id="reported-user" name="reportedUser" type="text" class="textInput" placeholder="username or listing owner" value="<%= formData.reportedUser %>">

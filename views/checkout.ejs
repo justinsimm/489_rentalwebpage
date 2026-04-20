@@ -12,34 +12,16 @@
         <div class="border">
             <div class="container">
                 <h1>Checkout</h1>
-                <div class="checkout_form">
-                    <h2>Shipping Address</h2>
-                    <label for="text_box">Full Name:</label>
-                    <input class="text_box">
-                    <label for="text_box">Street Address:</label>
-                    <input class="text_box">
-                    <label for="text_box">City:</label>
-                    <input class="text_box">
-                    <label for="text_box">State:</label>
-                    <input class="text_box">
-                    <label for="text_box">ZIP Code:</label>
-                    <input class="text_box">
-                    <label for="text_box">Phone Number:</label>
-                    <input class="text_box">
 
-                    <h2>Billing Address</h2>
-                    <label for="text_box">Same as shipping:</label>
-                    <input type="checkbox">
-                    <label for="text_box">Full Name:</label>
-                    <input class="text_box">
-                    <label for="text_box">Street Address:</label>
-                    <input class="text_box">
-                    <label for="text_box">City:</label>
-                    <input class="text_box">
-                    <label for="text_box">State:</label>
-                    <input class="text_box">
-                    <label for="text_box">ZIP Code:</label>
-                    <input class="text_box">
+                <!-- Demo Note: Data passed into this view via MVC (order/item). -->
+                <% const orderData = (typeof order !== 'undefined' && order) ? order : {}; %>
+                <% const itemData = orderData.item || item || {}; %>
+                <% const formatMoney = function(value) { return (typeof value === 'number') ? '$' + value.toFixed(2) : 'N/A'; }; %>
+                <% const formatDate = function(value) {
+                    if (!value) { return 'TBD'; }
+                    const date = new Date(value);
+                    return isNaN(date.getTime()) ? String(value) : date.toLocaleDateString();
+                }; %>
 
                 <!-- Demo Note: Form submits to the existing checkout route (POST). -->
                 <form class="checkout_form" method="post" action="/checkout">
@@ -115,25 +97,19 @@
                         <!-- Demo Note: Pricing breakdown rendered with safe fallbacks. -->
                         <h2>Rental Details</h2>
                         <div class="cart_container">
-                            <p><strong>Subtotal:</strong> <%= formatMoney(orderData.subtotal) %></p>
-                            <p><strong>Service Fee:</strong> <%= formatMoney(orderData.fees) %></p>
-                            <p><strong>Tax:</strong> <%= formatMoney(orderData.tax) %></p>
-                            <p><strong>Total:</strong> <%= formatMoney(orderData.total) %></p>
+                            <% const summaryData = (typeof priceSummary !== 'undefined' && priceSummary) ? priceSummary : {}; %>
+                            <p><strong>Subtotal:</strong> <%= formatMoney(summaryData.subtotal) %></p>
+                            <p><strong>Service Fee:</strong> <%= formatMoney(summaryData.fees) %></p>
+                            <p><strong>Tax:</strong> <%= formatMoney(summaryData.tax) %></p>
+                            <p><strong>Total:</strong> <%= formatMoney(summaryData.total) %></p>
                         </div>
                     </section>
 
-                    <h2>Cart</h2>
-                    <div class="cart_container">
-                        <p>Lawn Mower: $10</p>
-                        <p>Service Fee: $2</p>
-                        <p>Tax: $0.80</p>
-                        <p>Total: $12.80</p>
-                    </div>
                     <div class="mainButtons">
-                        <button class="btn btnPrimary" type="button">Place Order</button>
+                        <button class="btn btnPrimary" type="submit">Place Order</button>
                         <a class="btn btnSecondary" href="/browse">Back to Browse</a>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
