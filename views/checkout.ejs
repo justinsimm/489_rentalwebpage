@@ -24,83 +24,75 @@
                 }; %>
 
                 <!-- Demo Note: Form submits to the existing checkout route (POST). -->
-                <form class="checkout_form" method="post" action="/checkout/<%= itemData._id %>">
-                    <section class="checkout-section">
-                        <!-- Demo Note: Summary section renders item/order data with fallbacks. -->
-                        <h2>Order Summary</h2>
-                        <div class="summary-card">
+                <form id="checkout-form" class="checkout_form" method="post" action="/checkout/<%= itemData._id %>" data-stripe-key="<%= stripePublicKey %>">
+
+                    <div class="order-container">
+                        <div class="order-header">
+                            <h3 class="order-title">Order Summary</h3>
+                        </div>
+                        <div class="checkout-tile-body">
                             <p><strong>Item:</strong> <%= itemData.name || 'Item not available' %></p>
                             <p><strong>Category:</strong> <%= itemData.category || 'General' %></p>
                             <p><strong>Rental Dates:</strong> <%= formatDate(orderData.startDate) %> - <%= formatDate(orderData.endDate) %></p>
                             <p><strong>Daily Rate:</strong> <%= formatMoney(itemData.dailyRate) %></p>
                         </div>
-                    </section>
+                    </div>
 
-                    <section class="checkout-section">
-                        <!-- Demo Note: Shipping form fields (required). -->
-                        <h2>Shipping Address</h2>
-                        <label for="shipping-name">Full Name:</label>
-                        <input id="shipping-name" class="text_box" type="text" required>
-                        <label for="shipping-street">Street Address:</label>
-                        <input id="shipping-street" class="text_box" type="text" required>
-                        <label for="shipping-city">City:</label>
-                        <input id="shipping-city" class="text_box" type="text" required>
-                        <label for="shipping-state">State:</label>
-                        <input id="shipping-state" class="text_box" type="text" required>
-                        <label for="shipping-zip">ZIP Code:</label>
-                        <input id="shipping-zip" class="text_box" type="text" required>
-                        <label for="shipping-phone">Phone Number:</label>
-                        <input id="shipping-phone" class="text_box" type="tel" required>
-                    </section>
+                    <div class="order-container">
+                        <div class="order-header">
+                            <h3 class="order-title">Billing Address</h3>
+                        </div>
+                        <div class="checkout-tile-body">
+                            <div class="checkout-field">
+                                <label for="billing-same">Same as shipping:</label>
+                                <input id="billing-same" type="checkbox">
+                            </div>
+                            <div class="checkout-field">
+                                <label for="billing-name">Full Name:</label>
+                                <input id="billing-name" class="text_box" type="text">
+                            </div>
+                            <div class="checkout-field">
+                                <label for="billing-street">Street Address:</label>
+                                <input id="billing-street" class="text_box" type="text">
+                            </div>
+                            <div class="checkout-field">
+                                <label for="billing-city">City:</label>
+                                <input id="billing-city" class="text_box" type="text">
+                            </div>
+                            <div class="checkout-field">
+                                <label for="billing-state">State:</label>
+                                <input id="billing-state" class="text_box" type="text">
+                            </div>
+                            <div class="checkout-field">
+                                <label for="billing-zip">ZIP Code:</label>
+                                <input id="billing-zip" class="text_box" type="text">
+                            </div>
+                        </div>
+                    </div>
 
-                    <section class="checkout-section">
-                        <!-- Demo Note: Billing section mirrors shipping; optional inputs. -->
-                        <h2>Billing Address</h2>
-                        <label for="billing-same">Same as shipping:</label>
-                        <input id="billing-same" type="checkbox">
-                        <label for="billing-name">Full Name:</label>
-                        <input id="billing-name" class="text_box" type="text">
-                        <label for="billing-street">Street Address:</label>
-                        <input id="billing-street" class="text_box" type="text">
-                        <label for="billing-city">City:</label>
-                        <input id="billing-city" class="text_box" type="text">
-                        <label for="billing-state">State:</label>
-                        <input id="billing-state" class="text_box" type="text">
-                        <label for="billing-zip">ZIP Code:</label>
-                        <input id="billing-zip" class="text_box" type="text">
-                    </section>
+                    <div class="order-container">
+                        <div class="order-header">
+                            <h3 class="order-title">Payment Method</h3>
+                        </div>
+                        <div class="checkout-tile-body">
+                            <div id="card-element" class="text_box card-element-box"></div>
+                            <div id="card-errors" class="card-errors"></div>
+                            <input type="hidden" id="payment-method-id" name="paymentMethodId">
+                        </div>
+                    </div>
 
-                    <section class="checkout-section">
-                        <!-- Demo Note: Payment fields are placeholders for demo only. -->
-                        <h2>Payment Info</h2>
-                        <label for="card-number">Credit Card Number:</label>
-                        <input id="card-number" class="text_box" type="text" required>
-                        <label for="card-name">Name on Card:</label>
-                        <input id="card-name" class="text_box" type="text" required>
-                        <label for="card-exp">Expiration Date (MM/YY):</label>
-                        <input id="card-exp" class="text_box" type="text" required>
-                        <label for="card-cvv">CVV (3-4 digits):</label>
-                        <input id="card-cvv" class="text_box" type="text" required>
-                        <label for="card-type">Card Type:</label>
-                        <select id="card-type">
-                            <option value="Visa">Visa</option>
-                            <option value="mastercard">MasterCard</option>
-                            <option value="american_express">American Express</option>
-                            <option value="discover">Discover</option>
-                        </select>
-                    </section>
-
-                    <section class="checkout-section">
-                        <!-- Demo Note: Pricing breakdown rendered with safe fallbacks. -->
-                        <h2>Rental Details (1 Day)</h2>
-                        <div class="cart_container">
+                    <div class="order-container">
+                        <div class="order-header">
+                            <h3 class="order-title">Rental Details (1 Day)</h3>
+                        </div>
+                        <div class="checkout-tile-body">
                             <% const summaryData = (typeof priceSummary !== 'undefined' && priceSummary) ? priceSummary : {}; %>
                             <p><strong>Daily Rate:</strong> <%= formatMoney(summaryData.subtotal) %></p>
                             <p><strong>Service Fee:</strong> <%= formatMoney(summaryData.fees) %></p>
                             <p><strong>Tax:</strong> <%= formatMoney(summaryData.tax) %></p>
                             <p><strong>Estimated Total:</strong> <%= formatMoney(summaryData.total) %></p>
                         </div>
-                    </section>
+                    </div>
 
                     <div class="mainButtons">
                         <button class="btn btnPrimary" type="submit">Place Order</button>
@@ -111,5 +103,7 @@
         </div>
     </div>
 
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/javascripts/checkout_stripe.js"></script>
 </body>
 </html>

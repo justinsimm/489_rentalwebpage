@@ -6,6 +6,7 @@ const Report = require('../models/Report.js');
 const Message = require('../models/Message.js');
 const User = require('../models/User.js');
 const { isAuthenticated } = require('../middleware/auth.js');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 /* GET browse page. */
 router.get('/browse', async function(req, res, next) {
@@ -44,9 +45,9 @@ router.get('/item/:id', async function(req, res, next) {
 });
 
 /* GET checkout page. */
-router.get('/checkout', isAuthenticated, async function(req, res, next) {
+router.get('/checkout/:id', isAuthenticated, async function(req, res, next) {
   try {
-    const itemId = req.query.itemId;
+    const itemId = req.params.id;
     if (!itemId) {
       return res.redirect('/cart');
     }
@@ -69,7 +70,7 @@ router.get('/checkout', isAuthenticated, async function(req, res, next) {
       tax: 0,
       total: subtotal
     };
-    res.render('checkout', { item, priceSummary, title: 'Express' });
+    res.render('checkout', { item, priceSummary, title: 'Express', stripePublicKey: process.env.STRIPE_PUBLIC_KEY });
   } catch (err) {
     console.log('Could not load checkout item:', err);
     next(err);
@@ -84,6 +85,7 @@ router.post('/checkout/:id', isAuthenticated, async function(req, res, next) {
       return res.redirect('/browse');
     }
 
+    //Check that item id matches that of the item in the cart
     const user = await User.findById(req.user._id);
     const inCart = user && Array.isArray(user.cart)
       ? user.cart.some(function(cartId) { return cartId.toString() === itemId; })
@@ -98,11 +100,25 @@ router.post('/checkout/:id', isAuthenticated, async function(req, res, next) {
       return res.redirect('/browse');
     }
 
-    //Update the item status before adding to order
-    await item.updateOne({ status: "Rented Out" });
-
+    //Set the total - placeholder for rental agreement
     const dailyRate = (item.dailyRate !== undefined && item.dailyRate !== null) ? Number(item.dailyRate) : 0;
-    const total = Number.isFinite(dailyRate) ? dailyRate : 0; // Daily rate snapshot (no duration selected yet)
+    const total = Number.isFinite(dailyRate) ? dailyRate : 0;
+
+    //Attempt to charge the card
+    const { paymentMethodId } = req.body;
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: Math.round(total * 100),
+      currency: 'usd',
+      payment_method: paymentMethodId,
+      confirm: true,
+      automatic_payment_methods: { enabled: true, allow_redirects: 'never' }
+    });
+
+    if (paymentIntent.status !== 'succeeded') {
+      return res.redirect('/cart');
+    }
+
+    await item.updateOne({ status: "Rented Out" });
 
     const order = new Order({
       item: item._id,
@@ -114,34 +130,9 @@ router.post('/checkout/:id', isAuthenticated, async function(req, res, next) {
     await order.save();
     await User.findByIdAndUpdate(req.user._id, { $pull: { cart: item._id } });
     res.redirect('/order_history');
+
   } catch (err) {
     console.log('Could not create order:', err);
-    next(err);
-  }
-});
-
-/* POST add item to cart. */
-router.post('/cart/add/:id', isAuthenticated, async function(req, res, next) {
-  try {
-    const itemId = req.params.id;
-    const user = await User.findById(req.user._id);
-
-    if (!user) {
-      return res.redirect('/login');
-    }
-
-    const alreadyInCart = user.cart.some(function(cartId) {
-      return cartId.toString() === itemId;
-    });
-
-    if (!alreadyInCart) {
-      user.cart.push(itemId);
-      await user.save();
-    }
-
-    res.redirect('/cart');
-  } catch (err) {
-    console.log('Could not add item to cart:', err);
     next(err);
   }
 });

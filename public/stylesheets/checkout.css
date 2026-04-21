@@ -257,3 +257,56 @@ a {
 .btnDanger:hover {
     background-color: #B91C1C;
 }
+
+/* Checkout tiles (matches order_history tile style) */
+.order-container {
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.order-header {
+    background-color: #f4f4f4;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+}
+
+.order-title {
+    margin: 10px 10px 10px 20px;
+}
+
+.checkout-tile-body {
+    padding: 16px 20px;
+}
+
+.checkout-tile-body p {
+    margin: 4px 0;
+}
+
+.checkout-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.checkout-field label {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #374151;
+}
+
+.card-element-box {
+    padding: 10px;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+}
+
+.card-errors {
+    color: #DC2626;
+    font-size: 14px;
+    margin-top: 6px;
+    min-height: 20px;
+}
