@@ -1,34 +1,42 @@
 <header class="navbar">
-        <div class="container navContent">
-            <a href="/" class="logo">Rental Center</a>
-            <nav>
-                <ul class="navLinks">
-                    <!-- Not logged in navbar -->
-                    <% if (user === null) { %>
-                        <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
-                        <li><a href="/browse" class="<%= path === '/browse' ? 'active' : '' %>">Browse</a></li>
-                        <li><a href="/login" class="<%= path === '/login' ? 'active' : '' %>">Login</a></li>
-                        <li><a href="/signup" class="<%= path === '/signup' ? 'active' : '' %>">Sign Up</a></li>
+    <div class="container navContent">
+        <a href="/" class="logo">Rental Center</a>
+        <nav>
+            <ul class="navLinks">
+                <!-- Not logged in navbar -->
+                <% if (user===null) { %>
+                    <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
+                    <li><a href="/browse" class="<%= path === '/browse' ? 'active' : '' %>">Browse</a></li>
+                    <li><a href="/login" class="<%= path === '/login' ? 'active' : '' %>">Login</a></li>
+                    <li><a href="/signup" class="<%= path === '/signup' ? 'active' : '' %>">Sign Up</a></li>
 
                     <!--User navbar-->
-                    <% } else if (user.role === "user") { %>
+                    <% } else if (user.role==="user" ) { %>
                         <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
                         <li><a href="/browse" class="<%= path === '/browse' ? 'active' : '' %>">Browse</a></li>
                         <li><a href="/cart" class="<% path == '/cart' ? 'active' : '' %>">Cart</a></li>
                         <li><a href="/user_inbox" class="<%= path === '/user_inbox' ? 'active' : '' %>">Inbox</a></li>
                         <li><a href="/profile" class="<%= path === '/profile' ? 'active' : '' %>">Profile</a></li>
 
-                    <!-- Admin navbar -->
-                    <% } else if (user.role === "admin") { %>
-                        <li><a href="/admin_home" class="<%= path === '/admin_home' ? 'active' : '' %>">Home</a></li>
-                        <li><a href="/browse" class="<%= path === '/browse' ? 'active' : '' %>">Browse</a></li>
-                        <li><a href="/reports_dashboard" class="<%= path === '/reports_dashboard' ? 'active' : '' %>">Reports</a></li>
-                        <li><a href="/user_list" class="<%= path === '/user_list' ? 'active' : '' %>">Users</a></li>
-                        <li><a href="/admin_inbox" class="<%= path === '/admin_inbox' ? 'active' : '' %>">Inbox</a></li>
-                        <li><a href="/profile" class="<%= path === '/profile' ? 'active' : '' %>">Profile</a></li>
-                    <% } %>
-                    
-                </ul>
-            </nav>
-        </div>
-    </header>
+                        <!-- Admin navbar -->
+                        <% } else if (user.role==="admin" ) { %>
+                            <li><a href="/admin_home" class="<%= path === '/admin_home' ? 'active' : '' %>">Home</a></li>
+                            <li><a href="/browse" class="<%= path === '/browse' ? 'active' : '' %>">Browse</a></li>
+                            <li><a href="/reports_dashboard" class="<%= path === '/reports_dashboard' ? 'active' : '' %>">Reports</a></li>
+                            <li><a href="/user_list" class="<%= path === '/user_list' ? 'active' : '' %>">Users</a></li>
+                            <li><a href="/admin_inbox" class="<%= path === '/admin_inbox' ? 'active' : '' %>">Inbox</a></li>
+                            <li><a href="/profile" class="<%= path === '/profile' ? 'active' : '' %>">Profile</a></li>
+
+                        <!-- Moderator navbar (same as admin but no Users page) -->
+                        <% } else if (user.role==="moderator" ) { %>
+                            <li><a href="/admin_home" class="<%= path === '/admin_home' ? 'active' : '' %>">Home</a></li>
+                            <li><a href="/browse" class="<%= path === '/browse' ? 'active' : '' %>">Browse</a></li>
+                            <li><a href="/reports_dashboard" class="<%= path === '/reports_dashboard' ? 'active' : '' %>">Reports</a></li>
+                            <li><a href="/admin_inbox" class="<%= path === '/admin_inbox' ? 'active' : '' %>">Inbox</a></li>
+                            <li><a href="/profile" class="<%= path === '/profile' ? 'active' : '' %>">Profile</a></li>
+                        <% } %>
+
+            </ul>
+        </nav>
+    </div>
+</header>
