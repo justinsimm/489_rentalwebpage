@@ -191,7 +191,9 @@ th {
 
 .order-container {
     border-radius: 8px;
-    border: 1px solid #E5E7EB
+    border: 1px solid #E5E7EB;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .order-header {

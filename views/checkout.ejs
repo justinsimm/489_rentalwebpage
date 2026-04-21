@@ -24,10 +24,7 @@
                 }; %>
 
                 <!-- Demo Note: Form submits to the existing checkout route (POST). -->
-                <form class="checkout_form" method="post" action="/checkout">
-                    <% if (itemData && itemData._id) { %>
-                        <input type="hidden" name="itemId" value="<%= itemData._id %>">
-                    <% } %>
+                <form class="checkout_form" method="post" action="/checkout/<%= itemData._id %>">
                     <section class="checkout-section">
                         <!-- Demo Note: Summary section renders item/order data with fallbacks. -->
                         <h2>Order Summary</h2>

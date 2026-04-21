@@ -43,7 +43,12 @@
                                     <p class="listing-description"><%= safeItem.details || 'No description provided.' %></p>
                                     <div class="listing-footer">
                                         <span class="listing-price"><%= formatRate(safeItem.dailyRate) %></span>
-                                        <a class="btn btnPrimary" href="/item/<%= safeItem._id %>">View Details</a>
+                                        <div class="listing-actions">
+                                            <form method="post" action="/checkout/<%= safeItem._id %>">
+                                                <button type="submit" class="btn btnPrimary">Checkout</button>
+                                            </form>
+                                            <a class="btn btnSecondary" href="/item/<%= safeItem._id %>">View Details</a>
+                                        </div>
                                     </div>
                                 </article>
                             <% }); %>

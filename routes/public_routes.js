@@ -77,9 +77,9 @@ router.get('/checkout', isAuthenticated, async function(req, res, next) {
 });
 
 /* POST checkout page. */
-router.post('/checkout', isAuthenticated, async function(req, res, next) {
+router.post('/checkout/:id', isAuthenticated, async function(req, res, next) {
   try {
-    const itemId = req.body.itemId || req.query.itemId;
+    const itemId = req.params.id;
     if (!itemId || !req.user) {
       return res.redirect('/browse');
     }
