@@ -244,3 +244,23 @@ td {
     color: #4b5563;
     font-size: 14px;
 }
+
+.btnDanger {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background-color: #DC2626;
+    color: white;
+}
+
+.btnDanger:hover {
+    background-color: #B91C1C;
+}
+
+.inlineForm {
+    display: inline;
+}

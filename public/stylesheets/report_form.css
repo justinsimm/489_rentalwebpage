@@ -201,3 +201,18 @@ textarea {
     background-color: #f2dede;
     border-color: #ebccd1;
 }
+
+.itemContext {
+    background-color: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.itemContext p {
+    margin: 4px 0;
+    color: #1E40AF;
+    font-size: 14px;
+}

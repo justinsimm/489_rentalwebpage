@@ -138,86 +138,34 @@ a {
     width: 80%;
 }
 
-/* Report item boxes */
-.report-item {
-    border: 1px solid #E5E7EB;
-    border-radius: 6px;
-    padding: 20px;
-    margin: 20px 0;
-    min-height: 120px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fafafa;
-}
-
-.report-text {
+.recentSection {
     text-align: left;
-    flex: 1;
-}
-
-.report-figure {
-    width: 150px;
-    height: 100px;
-    border: 1px dashed #A0AEC0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 20px;
-    background-color: #fff;
-}
-
-.report-item h3 {
-    margin: 0;
-    margin-bottom: 10px;
-}
-
-.inbox_filter {
-    display: inline-block;
-    padding: 0 10px 0 10px;
-    border-right: 1px solid #E5E7EB;
-    margin-right: 5px;
-}
-
-/* remove border from last filter to avoid trailing line */
-.inbox_filter:last-child {
-    border-right: none;
-    margin-right: 0;
-}
-
-.filter-row {
-    /* keep the filters inline and spaced */
-    display: flex;
-    justify-content: center;
-    gap: 10px;
     margin-bottom: 20px;
 }
 
-.inbox_container {
-    display: flex;
-    gap: 20px;
-    /* ensure it takes full width under filters */
-    width: 100%;
+.recentSection h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #1F2937;
 }
 
-.messages-list {
-    flex: 1 1 25%;
-    border-right: 1px solid #E5E7EB;
-    padding-right: 10px;
+.emptyText {
+    color: #9CA3AF;
+    text-align: center;
+    padding: 20px;
+}
+
+.alertCard {
+    background-color: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
     text-align: left;
 }
 
-.message-item {
-    margin: 0 0 10px 0;
-    cursor: pointer;
-}
-
-.message-item:hover {
-    color: #2563EB;
-}
-
-.message-detail {
-    flex: 3 1 70%;
-    padding-left: 10px;
-    text-align: left;
+.alertMessage {
+    margin: 0;
+    color: #374151;
+    font-size: 14px;
 }

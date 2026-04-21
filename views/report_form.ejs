@@ -34,8 +34,15 @@
                     <form method="POST" action="/report" novalidate>
                         <input type="hidden" name="itemId" value="<%= itemId || '' %>">
 
+                        <% if (item) { %>
+                            <div class="itemContext">
+                                <p><strong>Reporting Item:</strong> <%= item.name %></p>
+                                <p><strong>Listed by:</strong> <%= item.owner %></p>
+                            </div>
+                        <% } %>
+
                         <label for="reported-user">User Reported:</label>
-                        <input id="reported-user" name="reportedUser" type="text" class="textInput" placeholder="username or listing owner" value="<%= formData.reportedUser %>">
+                        <input id="reported-user" name="reportedUser" type="text" class="textInput" placeholder="username or listing owner" value="<%= formData.reportedUser %>" <%= item ? 'readonly' : '' %>>
 
                         <label for="report_reason">Rule Broken:</label>
                         <select id="report_reason" name="reason">

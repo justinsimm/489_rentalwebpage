@@ -11,36 +11,27 @@
     <div class="background">
         <div class="border">
             <div class="container">
-                <h1>Inbox</h1>
-                <div class="filter-row">
-                    <h3 class="inbox_filter">Reports</h3>
-                    <h3 class="inbox_filter">Messages</h3>
-                    <h3 class="inbox_filter">Issues</h3>
+                <h1>Admin Inbox</h1>
+                <p>System alerts and action logs from report resolutions.</p>
+
+                <div class="recentSection">
+                    <h3>System Alerts</h3>
+                    <% if (alerts.length === 0) { %>
+                        <p class="emptyText">No alerts yet. Alerts will appear here when you resolve reports.</p>
+                    <% } else { %>
+                        <% alerts.forEach(function(alert) { %>
+                            <div class="alertCard">
+                                <p class="alertMessage"><%= alert.message %></p>
+                            </div>
+                        <% }); %>
+                    <% } %>
                 </div>
-                <div class="inbox_container">
-                    <div class="messages-list">
-                        <p class="message-item">[Report] Leaf Blower — Inappropriate Listing</p>
-                        <p class="message-item">[Report] Party Tent — Misleading Details</p>
-                        <p class="message-item">[Message] event_planner — Pickup update</p>
-                        <p class="message-item">[Issue] kate88 — Payment dispute</p>
-                    </div>
-                    <div class="message-detail">
-                        <h3>Details</h3>
-                        <p><strong>Type:</strong> Report</p>
-                        <p><strong>Item:</strong> Leaf Blower</p>
-                        <p><strong>Reporter:</strong> user_419</p>
-                        <p><strong>Reason:</strong> Inappropriate Listing</p>
-                        <p><strong>Notes:</strong> Listing includes unrelated content and pricing.</p>
-                        <div class="mainButtons">
-                            <button class="btn btnPrimary" type="button">Open Report</button>
-                            <button class="btn btnSecondary" type="button">Dismiss</button>
-                        </div>
-                    </div>
+
+                <div class="mainButtons">
+                    <a href="/admin_home" class="btn btnSecondary">Back to Admin Home</a>
                 </div>
-                
             </div>
         </div>
     </div>
-    <script src="../js/app.js"></script>
 </body>
 </html>

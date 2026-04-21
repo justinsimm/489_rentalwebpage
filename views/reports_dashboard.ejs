@@ -14,50 +14,86 @@
                 <h1>Reports Dashboard</h1>
                 <p>Review reported listings and take moderation actions.</p>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Report ID</th>
-                            <th>Item</th>
-                            <th>Reason</th>
-                            <th>Reporter</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>R-1021</td>
-                            <td>Leaf Blower</td>
-                            <td>Inappropriate Listing</td>
-                            <td>user_419</td>
-                            <td>Open</td>
-                            <td>
-                                <button class="btn btnPrimary">View</button>
-                                <button class="btn btnSecondary">Remove Listing</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>R-1022</td>
-                            <td>Party Tent</td>
-                            <td>Misleading Details</td>
-                            <td>event_planner</td>
-                            <td>Open</td>
-                            <td>
-                                <button class="btn btnPrimary">View</button>
-                                <button class="btn btnSecondary">Dismiss</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>R-1019</td>
-                            <td>Snowboard</td>
-                            <td>Scam Attempt</td>
-                            <td>kate88</td>
-                            <td>Resolved</td>
-                            <td><button class="btn btnSecondary">Reopen</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <% const openReports = reports.filter(function(r) { 
+                    return r.status === 'Open'; 
+                }); 
+                %>
+                <% const resolvedReports = reports.filter(function(r) { 
+                    return r.status === 'Resolved'; 
+                }); 
+                %>
+
+                <div class="recentSection">
+                    <h3>Open Reports</h3>
+                    <% if (openReports.length === 0) { %>
+                        <p class="emptyText">No open reports.</p>
+                    <% } else { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Reported User</th>
+                                    <th>Item</th>
+                                    <th>Reason</th>
+                                    <th>Reporter</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% openReports.forEach(function(report) { %>
+                                    <tr>
+                                        <td><%= report.reportedUser %></td>
+                                        <td><%= report.item ? report.item.name : 'N/A' %></td>
+                                        <td><%= report.reason %></td>
+                                        <td><%= report.reporterName || 'Unknown' %></td>
+                                        <td>
+                                            <% if (report.item) { %>
+                                                <a href="/item/<%= report.item._id %>" class="btn btnPrimary">View</a>
+                                            <% } %>
+                                            <form method="POST" action="/reports_dashboard/<%= report._id %>/resolve" class="inlineForm">
+                                                <input type="hidden" name="action" value="resolve">
+                                                <button type="submit" class="btn btnSecondary">Resolve</button>
+                                            </form>
+                                            <% if (report.item) { %>
+                                                <form method="POST" action="/reports_dashboard/<%= report._id %>/resolve" class="inlineForm">
+                                                    <input type="hidden" name="action" value="remove">
+                                                    <button type="submit" class="btn btnDanger">Remove & Notify</button>
+                                                </form>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    <% } %>
+                </div>
+
+                <div class="recentSection">
+                    <h3>Resolved Reports</h3>
+                    <% if (resolvedReports.length === 0) { %>
+                        <p class="emptyText">No resolved reports yet.</p>
+                    <% } else { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Reported User</th>
+                                    <th>Item</th>
+                                    <th>Reason</th>
+                                    <th>Reporter</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% resolvedReports.forEach(function(report) { %>
+                                    <tr>
+                                        <td><%= report.reportedUser %></td>
+                                        <td><%= report.item ? report.item.name : 'N/A' %></td>
+                                        <td><%= report.reason %></td>
+                                        <td><%= report.reporterName || 'Unknown' %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    <% } %>
+                </div>
 
                 <div class="mainButtons">
                     <a href="/admin_home" class="btn btnSecondary">Back to Admin Home</a>
@@ -65,7 +101,5 @@
             </div>
         </div>
     </div>
-
-    <script src="../js/app.js"></script>
 </body>
 </html>

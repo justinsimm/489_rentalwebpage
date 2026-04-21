@@ -234,16 +234,27 @@ router.post('/rentOutForm', isAuthenticated, async function(req, res, next) {
 });
 
 /* GET report page. */
-router.get('/report', isAuthenticated, function(req, res, next) {
-  const itemId = req.query.itemId || '';
-  res.render('report_form', {
-    title: 'Report Form',
-    itemId: itemId,
-    success: false,
-    errors: [],
-    formData: { reportedUser: '', reason: '', details: '' }
-  });
-});
+router.get('/report', isAuthenticated, async function(req, res, next) {
+    const itemId = req.query.itemId || '';
+    let item = null;
+    let reportedUser = '';
+
+    if (itemId) {
+      item = await Item.findById(itemId);
+      if (item) {
+        reportedUser = item.owner || '';
+      }
+    }
+
+    res.render('report_form', {
+      title: 'Report Form',
+      itemId: itemId,
+      item: item,
+      success: false,
+      errors: [],
+      formData: { reportedUser: reportedUser, reason: '', details: '' }
+    });
+})
 
 /* POST report form submission. */
 router.post('/report', isAuthenticated, async function(req, res, next) {
@@ -263,9 +274,14 @@ router.post('/report', isAuthenticated, async function(req, res, next) {
     }
 
     if (errors.length > 0) {
+      let item = null;
+      if (itemId) {
+        item = await Item.findById(itemId);
+      }
       return res.render('report_form', {
         title: 'Report Form',
         itemId: itemId,
+        item: item,
         success: false,
         errors: errors,
         formData: { reportedUser: reportedUser, reason: reason, details: details }
@@ -286,6 +302,7 @@ router.post('/report', isAuthenticated, async function(req, res, next) {
     res.render('report_form', {
       title: 'Report Form',
       itemId: '',
+      item: null,
       success: true,
       errors: [],
       formData: { reportedUser: '', reason: '', details: '' }
