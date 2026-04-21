@@ -60,21 +60,35 @@ a {
     color: #2563EB;
 }
 
-.btn {
-    display: inline-block;
-    padding: 12px 24px 12px 24px;
-    border-radius: 6px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    border: none;
-    background-color: #2866ee;
+.btnPrimary {
+    background-color: #2563EB;
     color: white;
 }
 
-
-.btn:hover {
+.btnPrimary:hover {
     background-color: #1D4ED8;
+}
+
+.btnSecondary {
+    background-color: white;
+    color: #1F2937;
+    border: 1px solid #E5E7EB;
+}
+
+.btnSecondary:hover {
+    background-color: #dadfe4;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: inherit;
+    text-align: center;
+    cursor: pointer;
+    border: none;
 }
 
 .formContainer {

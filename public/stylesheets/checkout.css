@@ -78,6 +78,8 @@ a {
     padding: 12px 24px;
     border-radius: 6px;
     font-weight: bold;
+    font-size: 14px;
+    font-family: inherit;
     text-align: center;
     cursor: pointer;
     border: none;
@@ -233,6 +235,10 @@ a {
     display: flex;
     gap: 8px;
     align-items: center;
+}
+
+.listing-actions form {
+    margin: 0;
 }
 
 .listing-price {

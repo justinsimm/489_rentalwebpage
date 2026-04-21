@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports Dashboard</title>
-    <link rel="stylesheet" href="/stylesheets/admin_home.css">
+    <link rel="stylesheet" href="/stylesheets/reports_dashboard.css">
 </head>
 <body>
     <%- include('partials/navbar') %>
@@ -46,19 +46,21 @@
                                         <td><%= report.reason %></td>
                                         <td><%= report.reporterName || 'Unknown' %></td>
                                         <td>
-                                            <% if (report.item) { %>
-                                                <a href="/item/<%= report.item._id %>" class="btn btnPrimary">View</a>
-                                            <% } %>
-                                            <form method="POST" action="/reports_dashboard/<%= report._id %>/resolve" class="inlineForm">
-                                                <input type="hidden" name="action" value="resolve">
-                                                <button type="submit" class="btn btnSecondary">Resolve</button>
-                                            </form>
-                                            <% if (report.item) { %>
+                                            <div class="actionButtons">
+                                                <% if (report.item) { %>
+                                                    <a href="/item/<%= report.item._id %>" class="btn btnPrimary">View</a>
+                                                <% } %>
                                                 <form method="POST" action="/reports_dashboard/<%= report._id %>/resolve" class="inlineForm">
-                                                    <input type="hidden" name="action" value="remove">
-                                                    <button type="submit" class="btn btnDanger">Remove & Notify</button>
+                                                    <input type="hidden" name="action" value="resolve">
+                                                    <button type="submit" class="btn btnSecondary">Resolve</button>
                                                 </form>
-                                            <% } %>
+                                                <% if (report.item) { %>
+                                                    <form method="POST" action="/reports_dashboard/<%= report._id %>/resolve" class="inlineForm">
+                                                        <input type="hidden" name="action" value="remove">
+                                                        <button type="submit" class="btn btnDanger">Remove</button>
+                                                    </form>
+                                                <% } %>
+                                            </div>
                                         </td>
                                     </tr>
                                 <% }); %>
