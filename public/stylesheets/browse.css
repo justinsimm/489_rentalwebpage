@@ -10,11 +10,7 @@ body {
     line-height: 1.5;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;  /* 100 percent of the viewpoint (browser page) */
-}
-
-.featureListings {
-    list-style: none;
+    min-height: 100vh;
 }
 
 .container {
@@ -30,12 +26,14 @@ h1 {
     padding: 0px;
     font-size: 40px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: #000000;
 }
 
-p {
-    margin-bottom: 0 0 16px 0;
+.subtitle {
+    color: #6B7280;
+    font-size: 16px;
+    margin-bottom: 20px;
 }
 
 a {
@@ -79,12 +77,13 @@ a {
 
 .btn {
     display: inline-block;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 6px;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
     border: none;
+    font-size: 14px;
 }
 
 .btnPrimary {
@@ -96,42 +95,9 @@ a {
     background-color: #1D4ED8;
 }
 
-.btnSecondary {
-    background-color: white;
-    color: #1F2937;
-    border: 1px solid #E5E7EB;
-}
-
-.btnSecondary:hover {
-    background-color: #dadfe4;
-}
-
-.mainBody {
-    padding: 10px;
-    text-align: center;
-}
-
-.mainContent {
-    max-width: 600px;
-    margin: auto;
-}
-
-.mainBody p {
-    color: #6B7280;
-    font-size: 18px;
-    margin-bottom: 32px;
-}
-
-.mainButtons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-}
-
 .background {
     display: flex;
     justify-content: center;
-    align-items: center;
     padding: 20px;
 }
 
@@ -142,64 +108,140 @@ a {
     width: 80%;
 }
 
-select {
-    display: block;
-    margin: 0 auto;
+/* Search bar */
+.searchBar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-/* Listing grid */
-.listing-grid {
+.searchBar input {
+    min-width: 785px;
+    padding: 10px 14px;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.searchBar select {
+    padding: 10px 14px;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.resultsCount {
+    color: #9CA3AF;
+    font-size: 13px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Empty state */
+.emptyState {
+    padding: 40px;
+    color: #9CA3AF;
+    text-align: center;
+}
+
+/* Listing rows */
+.listingList {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-}
-
-/* Listing card — styled like order tiles */
-.listing-card {
-    border-radius: 8px;
-    border: 1px solid #E5E7EB;
-    overflow: hidden;
-}
-
-.listing-meta {
-    background-color: #f4f4f4;
-    border-radius: 8px 8px 0 0;
-    border-bottom: 1px solid #E5E7EB;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     gap: 10px;
 }
 
-.listing-title {
-    margin: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.listing-category {
+.listingRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border: 1px solid #E5E7EB;
     border-radius: 8px;
-    border: 1px solid #c9cbcf;
-    margin: 10px;
-    padding: 2px 10px;
-    white-space: nowrap;
+    text-align: left;
 }
 
-.listing-description {
-    padding: 10px 20px;
+.listingRow:hover {
+    border-color: #2563EB;
+    background-color: #F9FAFB;
+}
+
+.listingImage {
+    width: 70px;
+    height: 70px;
+    background-color: #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.listingImage img {
+    width: 100%;
+    height: 100%;
+}
+
+.noImage {
+    font-size: 11px;
+    color: #9CA3AF;
+    text-align: center;
+}
+
+.listingInfo {
+    flex: 1;
+}
+
+.listingName {
     margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #1F2937;
+}
+
+.listingOwner {
+    margin: 2px 0;
+    font-size: 13px;
     color: #6B7280;
 }
 
-.listing-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    border-top: 1px solid #E5E7EB;
+.listingCategory {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px;
+    color: #6B7280;
+    margin-top: 4px;
 }
 
-.listing-price {
+/* Right side */
+.listingRight {
+    text-align: right;
+}
+
+.listingPrice {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #1F2937;
+    margin-bottom: 4px;
+}
+
+.listingStatus {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 4px;
     font-weight: bold;
 }
 
+.statusAvailable {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.statusTaken {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}

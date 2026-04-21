@@ -9,13 +9,28 @@ const { isAuthenticated } = require('../middleware/auth.js');
 
 /* GET browse page. */
 router.get('/browse', async function(req, res, next) {
-  try {
-    const items = await Item.find();
-    res.render('browse', { items, title: 'Browse' });
-  } catch (err) {
-    console.log('Could not load browse items:', err);
-    next(err);
-  }
+    const search = req.query.q;
+    const category = req.query.category;
+    
+    // We start with an empty filter object
+    var filter = {};
+
+    // Search by item name
+    if (search) {
+      // Search for items that contain the search query and ignore case-sensitivity
+      filter.name = { $regex: search, $options: 'i' };
+    }
+
+    // Filter by category
+    if (category) {
+      filter.category = category;
+    }
+
+    // Find items that match the filter
+    const items = await Item.find(filter);
+    
+    // Send the items to the page to be displayed
+    res.render('browse', { items, title: 'Browse', search: search, category: category });
 });
 
 /* GET item page. */
