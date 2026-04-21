@@ -60,7 +60,9 @@
 
                 <div class="mainButtons">
                     <a href="/reports_dashboard" class="btn btnPrimary">View All Reports</a>
-                    <a href="/user_list" class="btn btnSecondary">Manage Users</a>
+                    <% if (user.role === 'admin') { %>
+                        <a href="/user_list" class="btn btnSecondary">Manage Users</a>
+                    <% } %>
                 </div>
             </div>
         </div>

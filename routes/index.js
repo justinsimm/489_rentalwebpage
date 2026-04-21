@@ -97,7 +97,7 @@ router.get('/login', function (req, res, next) {
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), function (req, res) {
-  if (req.user.role === 'admin') {
+  if (req.user.role === 'admin' || req.user.role === 'moderator') {
     res.redirect('/admin_home');
   } else {
     res.redirect('/');
