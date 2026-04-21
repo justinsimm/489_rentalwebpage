@@ -98,6 +98,9 @@ router.post('/checkout/:id', isAuthenticated, async function(req, res, next) {
       return res.redirect('/browse');
     }
 
+    //Update the item status before adding to order
+    await item.updateOne({ status: "Rented Out" });
+
     const dailyRate = (item.dailyRate !== undefined && item.dailyRate !== null) ? Number(item.dailyRate) : 0;
     const total = Number.isFinite(dailyRate) ? dailyRate : 0; // Daily rate snapshot (no duration selected yet)
 
@@ -107,7 +110,9 @@ router.post('/checkout/:id', isAuthenticated, async function(req, res, next) {
       total: total
     });
 
+    //Save order for user and remove item from their cart
     await order.save();
+    await User.findByIdAndUpdate(req.user._id, { $pull: { cart: item._id } });
     res.redirect('/order_history');
   } catch (err) {
     console.log('Could not create order:', err);
