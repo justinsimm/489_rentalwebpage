@@ -44,10 +44,6 @@
                         </div>
                         <div class="checkout-tile-body">
                             <div class="checkout-field">
-                                <label for="billing-same">Same as shipping:</label>
-                                <input id="billing-same" type="checkbox">
-                            </div>
-                            <div class="checkout-field">
                                 <label for="billing-name">Full Name:</label>
                                 <input id="billing-name" class="text_box" type="text">
                             </div>
@@ -76,7 +72,7 @@
                         </div>
                         <div class="checkout-tile-body">
                             <div id="card-element" class="text_box card-element-box"></div>
-                            <div id="card-errors" class="card-errors"></div>
+                            <div id="card-errors" class="card-errors"><%= (typeof error !== 'undefined' && error) ? error : '' %></div>
                             <input type="hidden" id="payment-method-id" name="paymentMethodId">
                         </div>
                     </div>

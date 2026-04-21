@@ -23,9 +23,12 @@ form.addEventListener('submit', async function (e) {
   });
 
   if (error) {
+    //Possibly update to submit the form here, so errors can be displayed
+    //Currently error display reloads the page
     errorDiv.textContent = error.message;
     submitBtn.disabled = false;
   } else {
+    //Store the payment Method ID for the backend to grab in the form
     document.getElementById('payment-method-id').value = paymentMethod.id;
     form.submit();
   }

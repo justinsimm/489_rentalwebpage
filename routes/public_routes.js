@@ -70,7 +70,9 @@ router.get('/checkout/:id', isAuthenticated, async function(req, res, next) {
       tax: 0,
       total: subtotal
     };
-    res.render('checkout', { item, priceSummary, title: 'Express', stripePublicKey: process.env.STRIPE_PUBLIC_KEY });
+    const error = req.session.checkoutError || null;
+    delete req.session.checkoutError;
+    res.render('checkout', { item, priceSummary, title: 'Express', stripePublicKey: process.env.STRIPE_PUBLIC_KEY, error });
   } catch (err) {
     console.log('Could not load checkout item:', err);
     next(err);
@@ -106,16 +108,23 @@ router.post('/checkout/:id', isAuthenticated, async function(req, res, next) {
 
     //Attempt to charge the card
     const { paymentMethodId } = req.body;
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(total * 100),
-      currency: 'usd',
-      payment_method: paymentMethodId,
-      confirm: true,
-      automatic_payment_methods: { enabled: true, allow_redirects: 'never' }
-    });
+    let paymentIntent;
+    try {
+      paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(total * 100),
+        currency: 'usd',
+        payment_method: paymentMethodId,
+        confirm: true,
+        automatic_payment_methods: { enabled: true, allow_redirects: 'never' }
+      });
+    } catch (stripeErr) {
+      req.session.checkoutError = stripeErr.message || 'Payment failed. Please try again.';
+      return res.redirect('/checkout/' + itemId);
+    }
 
     if (paymentIntent.status !== 'succeeded') {
-      return res.redirect('/cart');
+      req.session.checkoutError = 'Payment was not completed. Please try again.';
+      return res.redirect('/checkout/' + itemId);
     }
 
     await item.updateOne({ status: "Rented Out" });
