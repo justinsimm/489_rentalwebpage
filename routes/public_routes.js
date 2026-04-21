@@ -138,11 +138,6 @@ router.get('/cart', isAuthenticated, async function(req, res, next) {
   }
 });
 
-/* GET reports_dashboard page. */
-router.get('/reports_dashboard', function(req, res, next) {
-  res.render('reports_dashboard', { title: 'Express' });
-});
-
 /* GET user_list page. */
 router.get('/user_list', function(req, res, next) {
   res.render('user_list', { title: 'Express' });
