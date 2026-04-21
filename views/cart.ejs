@@ -4,21 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Cart</title>
-    <link rel="stylesheet" href="/stylesheets/browse.css">
+    <link rel="stylesheet" href="/stylesheets/checkout.css">
 </head>
 <body>
     <%- include('partials/navbar') %>
     <div class="background">
         <div class="border">
             <main class="container">
-                <section class="browse-results">
+                <section class="browse-hero">
                     <h1>Your Cart</h1>
-                    <% const items = Array.isArray(cartItems) ? cartItems : []; %>
-                    <% const formatRate = function(value) {
-                        if (typeof value === 'number') { return '$' + value + '/day'; }
-                        if (typeof value === 'string' && value.trim().length > 0) { return '$' + value + '/day'; }
-                        return 'Price on request';
-                    }; %>
+                    <p>Items you have saved for rental.</p>
+                </section>
+
+                <% const items = Array.isArray(cartItems) ? cartItems : []; %>
+                <% const formatRate = function(value) {
+                    if (typeof value === 'number') { return '$' + value + '/day'; }
+                    if (typeof value === 'string' && value.trim().length > 0) { return '$' + value + '/day'; }
+                    return 'Price on request';
+                }; %>
+                <section class="browse-results">
+                    <div class="results-header">
+                        <h2>Saved Items</h2>
+                        <p><%= items.length %> item(s) in cart</p>
+                    </div>
                     <% if (items.length === 0) { %>
                         <div class="empty-state">
                             <p>Your cart is empty.</p>
@@ -30,12 +38,12 @@
                                 <article class="listing-card">
                                     <div class="listing-meta">
                                         <h3 class="listing-title"><%= safeItem.name || 'Untitled Item' %></h3>
-                                        <p class="listing-category"><%= safeItem.category || 'General' %></p>
+                                        <span class="listing-category"><%= safeItem.category || 'General' %></span>
                                     </div>
                                     <p class="listing-description"><%= safeItem.details || 'No description provided.' %></p>
                                     <div class="listing-footer">
                                         <span class="listing-price"><%= formatRate(safeItem.dailyRate) %></span>
-                                        <a class="btn" href="/item/<%= safeItem._id %>">View Details</a>
+                                        <a class="btn btnPrimary" href="/item/<%= safeItem._id %>">View Details</a>
                                     </div>
                                 </article>
                             <% }); %>

@@ -135,49 +135,113 @@ a {
     padding: 10px;
     border: 2px solid #E5E7EB;
     border-radius: 6px;
-    width: 60%;
+    width: 80%;
 }
 
-.checkout_form {
-    justify-content: left;
-    align-items: left;
-    border: 2px solid #E5E7EB;
-    border-radius: 6px;
-    padding: 10px;
-    text-align: left;
+/* Browse-style hero */
+.browse-hero {
+    padding: 20px 0 10px;
 }
 
-h2 {
-    text-align:left;
-    color: #2563EB;
+.browse-hero p {
+    color: #6B7280;
+    margin-bottom: 0;
 }
 
-.text_box {
-    text-align: left;
-    display: block;
-    width: 90%;
+/* Results header */
+.browse-results {
+    margin-top: 10px;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
     margin-bottom: 10px;
 }
-    
-.textbox {
-    align-items: left;
+
+.results-header h2 {
+    font-size: 20px;
+    font-weight: bold;
 }
 
-select {
-    display: block;
-    padding: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    text-align: left;
+.results-header p {
+    color: #6B7280;
+    font-size: 14px;
 }
 
-.cart_container {
-    justify-content: left;
-    align-items: left;
-    border: 2px solid #E5E7EB;
-    border-radius: 6px;
-    padding: 10px;
-    text-align: left;
-    margin: 5px;
-    background-color: #f1f1f5;
+/* Empty state */
+.empty-state {
+    padding: 40px;
+    color: #6B7280;
+    text-align: center;
+}
+
+/* Listing grid */
+.listing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Listing card */
+.listing-card {
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    overflow: hidden;
+}
+
+.listing-meta {
+    background-color: #f4f4f4;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.listing-title {
+    margin: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.listing-category {
+    border-radius: 8px;
+    border: 1px solid #c9cbcf;
+    margin: 10px;
+    padding: 2px 10px;
+    white-space: nowrap;
+}
+
+.listing-description {
+    padding: 10px 20px;
+    margin: 0;
+    color: #6B7280;
+}
+
+.listing-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-top: 1px solid #E5E7EB;
+}
+
+.listing-price {
+    font-size: 12px;
+    color: #9CA3AF;
+    word-break: break-all;
+}
+
+/* Danger button for ban action */
+.btnDanger {
+    background-color: #DC2626;
+    color: white;
+    cursor: pointer;
+}
+
+.btnDanger:hover {
+    background-color: #B91C1C;
 }
