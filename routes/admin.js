@@ -124,4 +124,19 @@ router.post('/reports_dashboard/:id/resolve', isAuthenticated, requireAdmin, asy
     res.redirect('/reports_dashboard');
 });
 
+//DELETE route for User - used by user_list
+router.post('/user_list/:id/ban', isAuthenticated, requireAdmin, async function(req, res, next) {
+  try {
+    const userToBan = await User.findById(req.params.id);
+    await userToBan.deleteOne()
+
+    res.redirect('/user_list');
+  } catch(err) {
+    console.log('Failed to ban user: ', err);
+    next()
+  }
+  
+
+});
+
 module.exports = router;

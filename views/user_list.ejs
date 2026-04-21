@@ -41,7 +41,9 @@
                                     </p>
                                     <div class="listing-footer">
                                         <span class="listing-price"><%= safeUser._id %></span>
-                                        <button class="btn btnDanger" type="button">Ban</button>
+                                        <form action="/user_list/<%= safeUser._id %>/ban" method="POST" style="display:inline">
+                                            <button type="submit" class="btn btnDanger">Ban</button>
+                                        </form>
                                     </div>
                                 </article>
                             <% }); %>
