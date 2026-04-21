@@ -10,47 +10,46 @@
     <%- include('partials/navbar') %>
     <div class="background">
         <div class="border">
-            <div class="container">
-                 <h1>User List</h1>
-                 <table class="user-table">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Ban</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>TheRenter</td>
-                            <td>Steve Jobs</td>
-                            <td>Imemployed@hotmail.com</td>
-                            <td><input type="checkbox"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                 </table>
-            </div>
+            <main class="container">
+                <section class="browse-hero">
+                    <h1>User List</h1>
+                    <p>Manage and moderate registered users.</p>
+                </section>
+
+                <% const userItems = Array.isArray(users) ? users : []; %>
+                <section class="browse-results">
+                    <div class="results-header">
+                        <h2>Registered Users</h2>
+                        <p><%= userItems.length %> user(s) found</p>
+                    </div>
+                    <% if (userItems.length === 0) { %>
+                        <div class="empty-state">
+                            <p>No users found.</p>
+                        </div>
+                    <% } else { %>
+                        <div class="listing-grid">
+                            <% userItems.forEach(function(user) { %>
+                                <% const safeUser = user || {}; %>
+                                <article class="listing-card">
+                                    <div class="listing-meta">
+                                        <h3 class="listing-title"><%= safeUser.username || 'Unknown User' %></h3>
+                                        <span class="listing-category"><%= safeUser.role || 'user' %></span>
+                                    </div>
+                                    <p class="listing-description">
+                                        <%= [safeUser.firstName, safeUser.lastName].filter(Boolean).join(' ') || 'No name provided' %>
+                                        &mdash; <%= safeUser.email || 'No email' %>
+                                    </p>
+                                    <div class="listing-footer">
+                                        <span class="listing-price"><%= safeUser._id %></span>
+                                        <button class="btn btnDanger" type="button">Ban</button>
+                                    </div>
+                                </article>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                </section>
+            </main>
         </div>
     </div>
-    
 </body>
 </html>
