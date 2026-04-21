@@ -29,10 +29,23 @@ router.get('/item/:id', async function(req, res, next) {
 });
 
 /* GET checkout page. */
-router.get('/checkout', async function(req, res, next) {
+router.get('/checkout', isAuthenticated, async function(req, res, next) {
   try {
     const itemId = req.query.itemId;
-    const item = itemId ? await Item.findById(itemId) : null;
+    if (!itemId) {
+      return res.redirect('/cart');
+    }
+
+    const user = await User.findById(req.user._id);
+    const inCart = user && Array.isArray(user.cart)
+      ? user.cart.some(function(cartId) { return cartId.toString() === itemId; })
+      : false;
+
+    if (!inCart) {
+      return res.redirect('/cart');
+    }
+
+    const item = await Item.findById(itemId);
     const dailyRate = item && item.dailyRate !== undefined && item.dailyRate !== null ? Number(item.dailyRate) : NaN;
     const subtotal = Number.isFinite(dailyRate) ? dailyRate : 0;
     const priceSummary = {
@@ -56,13 +69,22 @@ router.post('/checkout', isAuthenticated, async function(req, res, next) {
       return res.redirect('/browse');
     }
 
+    const user = await User.findById(req.user._id);
+    const inCart = user && Array.isArray(user.cart)
+      ? user.cart.some(function(cartId) { return cartId.toString() === itemId; })
+      : false;
+
+    if (!inCart) {
+      return res.redirect('/cart');
+    }
+
     const item = await Item.findById(itemId);
     if (!item) {
       return res.redirect('/browse');
     }
 
     const dailyRate = (item.dailyRate !== undefined && item.dailyRate !== null) ? Number(item.dailyRate) : 0;
-    const total = Number.isFinite(dailyRate) ? dailyRate : 0;
+    const total = Number.isFinite(dailyRate) ? dailyRate : 0; // Daily rate snapshot (no duration selected yet)
 
     const order = new Order({
       item: item._id,

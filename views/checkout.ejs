@@ -95,13 +95,13 @@
 
                     <section class="checkout-section">
                         <!-- Demo Note: Pricing breakdown rendered with safe fallbacks. -->
-                        <h2>Rental Details</h2>
+                        <h2>Rental Details (1 Day)</h2>
                         <div class="cart_container">
                             <% const summaryData = (typeof priceSummary !== 'undefined' && priceSummary) ? priceSummary : {}; %>
-                            <p><strong>Subtotal:</strong> <%= formatMoney(summaryData.subtotal) %></p>
+                            <p><strong>Daily Rate:</strong> <%= formatMoney(summaryData.subtotal) %></p>
                             <p><strong>Service Fee:</strong> <%= formatMoney(summaryData.fees) %></p>
                             <p><strong>Tax:</strong> <%= formatMoney(summaryData.tax) %></p>
-                            <p><strong>Total:</strong> <%= formatMoney(summaryData.total) %></p>
+                            <p><strong>Estimated Total:</strong> <%= formatMoney(summaryData.total) %></p>
                         </div>
                     </section>
 

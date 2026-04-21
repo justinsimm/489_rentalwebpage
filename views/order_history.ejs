@@ -23,17 +23,17 @@
                             </div>    
                         </div>
                         
-                        <image class="item-img" src=<%= order.item.image %> >
+                        <img class="item-img" src="<%= order.item.image %>">
 
                         <!--Order details (owner, date ordered, total cost) -->
                         <div class="order-detail-header">
                             <p>Owner</p>
                             <p>Date Ordered</p>
-                            <p>Total Cost</p>
+                            <p>Estimated Total (1 Day)</p>
                         </div>
                         <div class="order-details">
                             <p><%= order.item.owner %></p>
-                            <p><%= order.date.toDateString() %></p>
+                            <p><%= order.createdAt ? new Date(order.createdAt).toDateString() : 'N/A' %></p>
                             <p>$ <%= (order.total !== undefined && order.total !== null) ? order.total : 0 %></p>
                         </div>
                     <% }); %>
