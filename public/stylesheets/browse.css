@@ -84,7 +84,8 @@ a {
     font-weight: bold;
     text-align: center;
     cursor: pointer;
-    border: none;
+    background-color: #2563EB;
+    color: white;
 }
 
 .btnPrimary {

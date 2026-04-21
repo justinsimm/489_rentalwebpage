@@ -60,54 +60,6 @@ router.get('/user_list', isAuthenticated, requireAdmin, async function(req, res,
   }
 });
 
-/* GET earnings page. */
-router.get('/earnings', isAuthenticated, requireAdmin, async function(req, res, next) {
-  try {
-    const ownerName = req.user && req.user.username ? req.user.username : '';
-    const ownedItems = ownerName ? await Item.find({ owner: ownerName }).select('_id name') : [];
-    const ownedItemIds = ownedItems.map(function(item) { return item._id; });
-
-    const orders = ownedItemIds.length > 0
-      ? await Order.find({ item: { $in: ownedItemIds } }).populate('item renter')
-      : [];
-
-    const totalEarnings = orders.reduce(function(sum, order) {
-      const amount = (order && typeof order.total === 'number') ? order.total : 0;
-      return sum + amount;
-    }, 0);
-
-    const now = new Date();
-    const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
-    const recentEarnings = orders.reduce(function(sum, order) {
-      const dateValue = order && (order.createdAt || order.date);
-      const amount = (order && typeof order.total === 'number') ? order.total : 0;
-      if (dateValue && new Date(dateValue) >= thirtyDaysAgo) {
-        return sum + amount;
-      }
-      return sum;
-    }, 0);
-
-    const transactions = orders.map(function(order) {
-      return {
-        date: order.createdAt || order.date,
-        itemName: order.item && order.item.name,
-        renterName: order.renter && (order.renter.name || order.renter.username),
-        amount: (order && typeof order.total === 'number') ? order.total : 0
-      };
-    });
-
-    res.render('earnings', {
-      title: 'Express',
-      totalEarnings: totalEarnings,
-      recentEarnings: recentEarnings,
-      transactions: transactions
-    });
-  } catch (err) {
-    console.log('Could not load earnings:', err);
-    next(err);
-  }
-});
-
 /* GET reports dashboard page. */
 router.get('/reports_dashboard', isAuthenticated, requireAdmin, async function(req, res, next) {
   try {
