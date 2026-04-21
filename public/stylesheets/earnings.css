@@ -10,7 +10,7 @@ body {
     line-height: 1.5;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;  /* 100 percent of the viewpoint (browser page) */
+    min-height: 100vh;
 }
 
 .container {
@@ -37,33 +37,6 @@ a {
     justify-content: space-between;
     align-items: center;
 }
-
-.btnPrimary {
-        background-color: #2563EB;
-        color: white;
-}
-
-.btnPrimary:hover {
-    background-color: #1D4ED8;
-}
-
-.btnSecondary {
-    background-color: white;
-    color: #1F2937;
-    border: 1px solid #E5E7EB;
-}
-
-.btnSecondary:hover {
-    background-color: #dadfe4;
-}
-
-.mainButtons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
 
 .logo {
     font-size: 24px;
@@ -99,9 +72,34 @@ a {
     color: white;
 }
 
-
 .btn:hover {
     background-color: #1D4ED8;
+}
+
+.btnPrimary {
+    background-color: #2563EB;
+    color: white;
+}
+
+.btnPrimary:hover {
+    background-color: #1D4ED8;
+}
+
+.btnSecondary {
+    background-color: white;
+    color: #1F2937;
+    border: 1px solid #E5E7EB;
+}
+
+.btnSecondary:hover {
+    background-color: #dadfe4;
+}
+
+.mainButtons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .formContainer {
@@ -134,13 +132,10 @@ a {
     font-size: 15px;
 }
 
-
-.form-input {
+.form1_value {
     padding: 12px 16px;
-    font-size: 13px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    color: #000000;
+    font-size: 20px;
+    color: #2563EB;
     background-color: #ffffff;
 }
 
@@ -156,4 +151,63 @@ a {
     border: 2px solid #E5E7EB;
     border-radius: 6px;
     width: 80%;
+}
+
+.earnings-summary {
+    margin-bottom: 24px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 12px 16px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.earnings-history {
+    margin-bottom: 20px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.earnings-history h2 {
+    padding: 12px 16px;
+    border-bottom: 1px solid #E5E7EB;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.earnings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.earnings-table thead tr {
+    background-color: #f9fafb;
+}
+
+.earnings-table th {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 14px;
+    color: #6B7280;
+    border-bottom: 1px solid #E5E7EB;
+    font-weight: 600;
+}
+
+.earnings-table td {
+    padding: 10px 16px;
+    font-size: 15px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.earnings-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.earnings-table td:last-child {
+    font-weight: 600;
+    color: #2563EB;
 }
