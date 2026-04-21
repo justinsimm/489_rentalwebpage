@@ -44,7 +44,7 @@ router.get('/admin_inbox', isAdmin, async function (req, res, next) {
 });
 
 /* GET user list page. */
-router.get('/user_list', isAdminOnly, async function (req, res, next) {
+router.get('/user_list', isAuthenticated, isAdminOnly, async function (req, res, next) {
   try {
     const users = await User.find();
     res.render('user_list', { users, title: 'Express' });
@@ -55,7 +55,7 @@ router.get('/user_list', isAdminOnly, async function (req, res, next) {
 });
 
 /* GET reports dashboard page. */
-router.get('/reports_dashboard', isAdmin, async function (req, res, next) {
+router.get('/reports_dashboard', isAuthenticated, isAdmin, async function (req, res, next) {
   try {
     const reports = await Report.find().populate('item reporter').sort({ createdAt: -1 });
     res.render('reports_dashboard', { title: 'Express', reports: reports });
@@ -66,7 +66,7 @@ router.get('/reports_dashboard', isAdmin, async function (req, res, next) {
 });
 
 /* POST resolve a report. */
-router.post('/reports_dashboard/:id/resolve', isAdmin, async function (req, res, next) {
+router.post('/reports_dashboard/:id/resolve', isAuthenticated, isAdmin, async function (req, res, next) {
   // Check which button the admin clicked
   const action = req.body.action;
 
@@ -119,7 +119,7 @@ router.post('/reports_dashboard/:id/resolve', isAdmin, async function (req, res,
 });
 
 //DELETE route for User - used by user_list
-router.post('/user_list/:id/ban', isAdminOnly, async function (req, res, next) {
+router.post('/user_list/:id/ban', isAuthenticated, isAdminOnly, async function (req, res, next) {
   try {
     const userToBan = await User.findById(req.params.id);
     await userToBan.deleteOne()

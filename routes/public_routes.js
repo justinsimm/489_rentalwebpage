@@ -219,7 +219,7 @@ router.post('/rentItem/:id', isAuthenticated, async function(req, res, next) {
 });
 
 /* GET rent Out page. */
-router.get('/rentOutForm', function(req, res, next) {
+router.get('/rentOutForm', isAuthenticated, function(req, res, next) {
   res.render('rentOutForm', { title: 'Express' });
 });
 
