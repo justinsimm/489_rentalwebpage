@@ -101,19 +101,6 @@ async function seed() {
         cart: [items[10]._id, items[15]._id, items[20]._id]
     });
 
-    // ── MESSAGES ──
-    const messages = await Message.insertMany([
-        // Inform messages
-        { sender: users[2]._id, recipient: users[3]._id, type: 'inform', message: 'Hello, is this item still available?' },
-        { sender: users[3]._id, recipient: users[2]._id, type: 'inform', message: 'Yes, it is!' },
-        // Order messages
-        { sender: users[2]._id, recipient: users[5]._id, type: 'order', message: 'I would like to rent this item for the weekend.', item: items[3]._id },
-        { sender: users[5]._id, recipient: users[2]._id, type: 'order', message: 'Someone wants to rent your item.', item: mscottItem ? mscottItem._id : items[4]._id },
-        // Alert and Report messages from Admin to mscott
-        { sender: users[0]._id, recipient: users[2]._id, type: 'alert', message: 'Your listing "String Lights (100ft)" has been removed. Reason: inappropriate_item' },
-        { sender: users[0]._id, recipient: users[2]._id, type: 'report', message: 'Removed listing "Fake Gucci Bag" from user "sjohnson". Reason: user_scam' }
-    ]);
-
     // ── REPORTS ──
     const reports = await Report.insertMany([
         { reporter: users[2]._id, reporterName: users[2].username, reportedUser: users[3].username, item: items[1]._id, reason: 'user_scam', details: 'User asked for payment outside the platform.', status: 'Open' },
