@@ -177,7 +177,8 @@ router.get('/my_listings', isAuthenticated, async function(req, res, next) {
 /* GET order history page. */
 router.get('/order_history', isAuthenticated, async function(req, res, next) {
   try {
-    const orders = await Order.find({ renter: req.user._id }).populate('item');
+    const raw = await Order.find({ renter: req.user._id }).populate('item');
+    const orders = raw.filter(o => o.item !== null);
     res.render('order_history', { orders, title: 'Express' });
   } catch (err) {
     console.log('Order History Page could not be retreived', err);
